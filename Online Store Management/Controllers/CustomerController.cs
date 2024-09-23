@@ -17,8 +17,6 @@ namespace Online_Store_Management.Controllers
             "Garcia", "Lee", "Patel", "Johnson", "Wilson", "Kim"
         };
 
-
-
         [HttpGet ("new")]
         public ActionResult<object> GetNewCustomer() // синтаксис actionresult взято в інтернеті
         {
@@ -60,9 +58,7 @@ namespace Online_Store_Management.Controllers
                 DiscountedPrice = discountedPrice
             };
 
-            
         }
-
 
     }
 }
