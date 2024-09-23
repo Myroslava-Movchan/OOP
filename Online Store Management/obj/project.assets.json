@@ -433,11 +433,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\myros\\source\\repos\\Online Store Management\\Online Store Management\\Online Store Management.csproj",
+      "projectUniqueName": "C:\\Users\\myros\\source\\repos\\OOP\\Online Store Management\\Online Store Management.csproj",
       "projectName": "Online Store Management",
-      "projectPath": "C:\\Users\\myros\\source\\repos\\Online Store Management\\Online Store Management\\Online Store Management.csproj",
+      "projectPath": "C:\\Users\\myros\\source\\repos\\OOP\\Online Store Management\\Online Store Management.csproj",
       "packagesPath": "C:\\Users\\myros\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\myros\\source\\repos\\Online Store Management\\Online Store Management\\obj\\",
+      "outputPath": "C:\\Users\\myros\\source\\repos\\OOP\\Online Store Management\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\myros\\AppData\\Roaming\\NuGet\\NuGet.Config",

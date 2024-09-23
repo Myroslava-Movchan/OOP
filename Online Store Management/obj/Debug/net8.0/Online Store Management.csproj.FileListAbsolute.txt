@@ -30,3 +30,36 @@ C:\Users\myros\source\repos\Online Store Management\Online Store Management\obj\
 C:\Users\myros\source\repos\Online Store Management\Online Store Management\obj\Debug\net8.0\Online Store Management.pdb
 C:\Users\myros\source\repos\Online Store Management\Online Store Management\obj\Debug\net8.0\Online Store Management.genruntimeconfig.cache
 C:\Users\myros\source\repos\Online Store Management\Online Store Management\obj\Debug\net8.0\ref\Online Store Management.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\appsettings.json
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Online Store Management.exe
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Online Store Management.deps.json
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Online Store Management.runtimeconfig.json
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Online Store Management.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Online Store Management.pdb
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.csproj.AssemblyReference.cache
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.AssemblyInfoInputs.cache
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.AssemblyInfo.cs
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.csproj.CoreCompileInputs.cache
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.sourcelink.json
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets\msbuild.Online Store Management.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets\msbuild.build.Online Store Management.props
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Online Store Management.props
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Online Store Management.props
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\scopedcss\bundle\Online Store Management.styles.css
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online S.0312DC74.Up2Date
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\refint\Online Store Management.dll
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.pdb
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\Online Store Management.genruntimeconfig.cache
+C:\Users\myros\source\repos\OOP\Online Store Management\obj\Debug\net8.0\ref\Online Store Management.dll

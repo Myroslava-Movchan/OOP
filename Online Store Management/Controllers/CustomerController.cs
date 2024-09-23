@@ -18,7 +18,7 @@ namespace Online_Store_Management.Controllers
         };
 
         [HttpGet ("new")]
-        public ActionResult<object> GetNewCustomer() // синтаксис actionresult взято в інтернеті
+        public Discount GetNewCustomer()
         {
             var lastName = LastNamesNew[Random.Shared.Next(LastNamesNew.Length)];
             var customer = new NewCustomer()
@@ -31,7 +31,7 @@ namespace Online_Store_Management.Controllers
             customer.SetProduct(product);
             var discountedPrice = customer.GetDiscount();
 
-            return new
+            return new Discount
             {
                 Customer = customer,
                 DiscountedPrice = discountedPrice
@@ -39,7 +39,7 @@ namespace Online_Store_Management.Controllers
         }
 
         [HttpGet("regular")]
-        public ActionResult<object> GetRegularCustomer() // синтаксис actionresult взято в інтернеті
+        public Discount GetRegularCustomer()
         {
             var lastName = LastNamesRegular[Random.Shared.Next(LastNamesRegular.Length)];
             var customer = new RegularCustomer()
@@ -52,7 +52,7 @@ namespace Online_Store_Management.Controllers
             customer.SetProduct(product);
             var discountedPrice = customer.GetDiscount();
 
-            return new
+            return new Discount
             {
                 Customer = customer,
                 DiscountedPrice = discountedPrice

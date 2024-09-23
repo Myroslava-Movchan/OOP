@@ -50,4 +50,10 @@
             return discounted;
         }
     }
+
+    public class Discount
+    {
+        public Customer? Customer { get; set; }
+        public decimal DiscountedPrice { get; set; }
+    }
 }
