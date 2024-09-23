@@ -1,1 +1,1 @@
-# OOP
+# OOP Online Store Management
