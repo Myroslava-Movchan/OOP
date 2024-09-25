@@ -9,12 +9,6 @@ namespace Online_Store_Management.Controllers
     public class OrderInfoController : ControllerBase
     {
         private readonly OrderInfoService orderInfoService;
-        private static readonly string[] Gifts = new[]
-        {
-            "Pin", "Sticker",
-            "Candy", "Bracelet",
-            "Hairclip", "Socks"
-        };
 
         public OrderInfoController()
         {
@@ -24,10 +18,16 @@ namespace Online_Store_Management.Controllers
         [HttpPost]
         public OrderInfo Post(Product product)
         {
-            var orderInfo = new OrderInfo();
-            return orderInfo;
+            var orderInfo = orderInfoService.Post;
+            return orderInfo(product);
         }
 
-        
+        [HttpPost("CompareOrders")]
+        public bool Compare(OrderInfo order)
+        {
+            var answer = orderInfoService.CompareOrders(order);
+            return answer;
+        }
+
     }
 }

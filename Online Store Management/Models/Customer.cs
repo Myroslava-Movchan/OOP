@@ -19,7 +19,7 @@
         {
             Console.WriteLine($"The assistant will answer during one week to help you with you issue: {issue}.");
         }
-
+        
     }
 
     public class NewCustomer : Customer
