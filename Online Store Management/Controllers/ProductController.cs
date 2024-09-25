@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Models;
+using Online_Store_Management.Services;
 
 namespace Online_Store_Management.Controllers
 {
@@ -7,6 +8,7 @@ namespace Online_Store_Management.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
+        private readonly ProductService productService;
         private static readonly string[] Products = new[]
         {
             "T-Shirt", "Jeans",
@@ -20,19 +22,16 @@ namespace Online_Store_Management.Controllers
             "Boots", "Sneakers"
         };
 
+        public ProductController() 
+        { 
+            productService = new ProductService();
+        }
+
         [HttpGet]
         public Product? GetProduct()
         {
-            var productName = Products[Random.Shared.Next(Products.Length)];
-            var product = new Product() 
-            {
-                ProductId = Random.Shared.Next(1,18),
-                ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230)
-            };
-
+            var product = productService.GetProduct();
             return product;
-
         }
     }
 }

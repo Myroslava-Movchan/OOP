@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Models;
+using Online_Store_Management.Services;
 
 namespace Online_Store_Management.Controllers
 {
@@ -7,6 +8,7 @@ namespace Online_Store_Management.Controllers
     [Route("[controller]")]
     public class OrderInfoController : ControllerBase
     {
+        private readonly OrderInfoService orderInfoService;
         private static readonly string[] Gifts = new[]
         {
             "Pin", "Sticker",
@@ -14,20 +16,15 @@ namespace Online_Store_Management.Controllers
             "Hairclip", "Socks"
         };
 
+        public OrderInfoController()
+        {
+            orderInfoService = new OrderInfoService();
+        }
+
         [HttpPost]
         public OrderInfo Post(Product product)
         {
-            
-            var gifts = Gifts[Random.Shared.Next(Gifts.Length)];
-            var orderInfo = new OrderInfo()
-            {
-                OrderNumber = Random.Shared.Next(1, 250),
-                Gift = gifts,
-                ProductName = product.ProductName,
-                ProductId = product.ProductId,
-                ProductPrice = product.ProductPrice
-            };
-
+            var orderInfo = new OrderInfo();
             return orderInfo;
         }
 
