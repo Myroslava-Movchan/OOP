@@ -1,9 +1,11 @@
 ﻿using Online_Store_Management.Models;
+using System.Collections;
 namespace Online_Store_Management.Services
 {
     public class OrderInfoService
     {
-        private readonly List<OrderInfo> orders = new List<OrderInfo>();
+        private readonly ArrayList orders = new ArrayList(100);
+        private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
         private static readonly string[] Gifts =
         [
             "Pin", "Sticker",
@@ -22,8 +24,11 @@ namespace Online_Store_Management.Services
                 ProductId = product.ProductId,
                 ProductPrice = product.ProductPrice
             };
-            orders.Add(orderInfo);
-            return orderInfo;
+
+            object objOrder = orderInfo;
+            orders.Add(objOrder);
+            OrderInfo order = (OrderInfo)objOrder;
+            return order;
         }
 
         public bool CompareOrders(OrderInfo order)
@@ -38,6 +43,20 @@ namespace Online_Store_Management.Services
                 }
             }
             return compare;
+        }
+
+        public bool AddToTable(OrderInfo order)
+        {
+            var orderHashCode = order.GetHashCode();
+            foreach (var existingOrder in orders)
+            {
+                if (existingOrder.GetHashCode() == orderHashCode)
+                {
+                    return false;
+                }
+            }
+            orderTable.Add(order);
+            return true;
         }
     }
 }

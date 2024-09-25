@@ -19,6 +19,7 @@ namespace Online_Store_Management.Controllers
         public OrderInfo Post(Product product)
         {
             var orderInfo = orderInfoService.Post;
+            var addToTable = orderInfoService.AddToTable;
             return orderInfo(product);
         }
 
