@@ -1,4 +1,5 @@
-﻿namespace Online_Store_Management.Models
+﻿
+namespace Online_Store_Management.Models
 {
     public class OrderInfo : Product
     {
@@ -15,11 +16,8 @@
 
         public override bool Equals(object? obj)
         {
-            if (obj is OrderInfo other)
-            {
-                return this.OrderNumber == other.OrderNumber;
-            }
-            return false;
+            return obj is OrderInfo info &&
+                   OrderNumber == info.OrderNumber;
         }
 
         public override int GetHashCode()
