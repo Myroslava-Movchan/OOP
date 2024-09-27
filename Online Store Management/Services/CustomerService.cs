@@ -2,7 +2,7 @@
 using Online_Store_Management.Models;
 namespace Online_Store_Management.Services
 {
-    public class CustomerService
+    public class CustomerService : IDisposable
     {
         private static readonly string[] LastNamesNew = new[]
         {
@@ -12,6 +12,47 @@ namespace Online_Store_Management.Services
         {
             "Garcia", "Lee", "Patel", "Johnson", "Wilson", "Kim"
         };
+
+        private readonly FileStream _transactionLogFileStream;
+        private bool _disposed = false;
+
+        public CustomerService()
+        {
+        }
+        public CustomerService(string filepath)
+        {
+            _transactionLogFileStream = new FileStream(filepath, FileMode.OpenOrCreate);
+        }
+
+        public void LogAction(string message)
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(CustomerService));
+            }
+            byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow}: {message}\n");
+            _transactionLogFileStream.Write(messageBytes, 0, messageBytes.Length);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            if (disposing) 
+            {
+                _transactionLogFileStream.Close();
+                _transactionLogFileStream.Dispose();
+            }
+            _disposed = true;
+        }
 
         public Discount GetNewCustomer()
         {
@@ -52,6 +93,11 @@ namespace Online_Store_Management.Services
                 DiscountedPrice = discountedPrice
             };
 
+        }
+
+        ~CustomerService()
+        {
+            Dispose(false);
         }
     }
 }
