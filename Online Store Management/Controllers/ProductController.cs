@@ -10,8 +10,8 @@ namespace Online_Store_Management.Controllers
     {
         private readonly ProductService productService;
 
-        public ProductController() 
-        { 
+        public ProductController()
+        {
             productService = new ProductService();
         }
 

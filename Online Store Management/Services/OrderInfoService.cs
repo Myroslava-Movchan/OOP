@@ -34,7 +34,7 @@ namespace Online_Store_Management.Services
         public bool CompareOrders(OrderInfo order)
         {
             bool compare = false;
-            foreach(var existingOrder in orders)
+            foreach (var existingOrder in orders)
             {
                 if (order.Equals(existingOrder))
                 {

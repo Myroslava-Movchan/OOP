@@ -11,7 +11,7 @@
         public void SetProduct(Product value)
         { _product = value; }
         public string? LastName { get; set; }
-       
+
         public int Id { get; set; }
 
         public abstract decimal GetDiscount();
@@ -19,7 +19,7 @@
         {
             Console.WriteLine($"The assistant will answer during one week to help you with you issue: {issue}.");
         }
-        
+
     }
 
     public class NewCustomer : Customer
@@ -42,7 +42,7 @@
             Console.WriteLine($"Your assistant will answer during 2 days to help with your issue: {issue}");
         }
         public override decimal GetDiscount()
-        {   
+        {
             Product product = GetProduct();
 
             decimal fullPrice = product.ProductPrice;

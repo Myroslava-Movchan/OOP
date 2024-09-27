@@ -10,12 +10,12 @@ namespace Online_Store_Management.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustomerService customerService;
-        public CustomerController() 
+        public CustomerController()
         {
             customerService = new CustomerService();
         }
 
-        [HttpGet ("new")]
+        [HttpGet("new")]
         public Discount GetNewCustomer()
         {
             var newCustomer = customerService.GetNewCustomer();
