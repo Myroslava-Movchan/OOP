@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Models;
+using Online_Store_Management.Services;
 
 namespace Online_Store_Management.Controllers
 {
@@ -8,56 +9,24 @@ namespace Online_Store_Management.Controllers
 
     public class CustomerController : ControllerBase
     {
-        private static readonly string[] LastNamesNew = new[]
+        private readonly CustomerService customerService;
+        public CustomerController()
         {
-            "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
-        };
-        private static readonly string[] LastNamesRegular = new[]
-        {
-            "Garcia", "Lee", "Patel", "Johnson", "Wilson", "Kim"
-        };
+            customerService = new CustomerService();
+        }
 
-        [HttpGet ("new")]
+        [HttpGet("new")]
         public Discount GetNewCustomer()
         {
-            var lastName = LastNamesNew[Random.Shared.Next(LastNamesNew.Length)];
-            var customer = new NewCustomer()
-            {
-                LastName = lastName,
-                Id = Random.Shared.Next(1, 6)
-            };
-            var productController = new ProductController();
-            var product = productController.GetProduct();
-            customer.SetProduct(product);
-            var discountedPrice = customer.GetDiscount();
-
-            return new Discount
-            {
-                Customer = customer,
-                DiscountedPrice = discountedPrice
-            };
+            var newCustomer = customerService.GetNewCustomer();
+            return newCustomer;
         }
 
         [HttpGet("regular")]
         public Discount GetRegularCustomer()
         {
-            var lastName = LastNamesRegular[Random.Shared.Next(LastNamesRegular.Length)];
-            var customer = new RegularCustomer()
-            {
-                LastName = lastName,
-                Id = Random.Shared.Next(7, 12)
-            };
-            var productController = new ProductController();
-            var product = productController.GetProduct();
-            customer.SetProduct(product);
-            var discountedPrice = customer.GetDiscount();
-
-            return new Discount
-            {
-                Customer = customer,
-                DiscountedPrice = discountedPrice
-            };
-
+            var regularCustomer = customerService.GetRegularCustomer();
+            return regularCustomer;
         }
 
     }

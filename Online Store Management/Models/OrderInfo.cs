@@ -1,4 +1,5 @@
-﻿namespace Online_Store_Management.Models
+﻿
+namespace Online_Store_Management.Models
 {
     public class OrderInfo : Product
     {
@@ -13,6 +14,16 @@
             this.ProductId = product.ProductId;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is OrderInfo info &&
+                   OrderNumber == info.OrderNumber;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(OrderNumber);
+        }
     }
 
 
