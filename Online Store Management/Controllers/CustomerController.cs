@@ -18,8 +18,13 @@ namespace Online_Store_Management.Controllers
         [HttpGet("new")]
         public Discount GetNewCustomer()
         {
-            var newCustomer = customerService.GetNewCustomer();
-            return newCustomer;
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
+            using (CustomerService service = new(filepath))
+            {
+                var newCustomer = customerService.GetNewCustomer();
+                service.LogAction($"Create new customer: {newCustomer}");
+                return newCustomer;
+            }
         }
 
         [HttpGet("regular")]
