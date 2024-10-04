@@ -10,9 +10,9 @@ namespace Online_Store_Management.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustomerService customerService;
-        public CustomerController()
+        public CustomerController(CustomerService customerService)
         {
-            customerService = new CustomerService();
+            this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService);
         }
 
         [HttpGet("new")]
