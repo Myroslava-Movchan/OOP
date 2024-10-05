@@ -11,6 +11,7 @@
         public void SetProduct(Product value)
         { _product = value; }
         public string? LastName { get; set; }
+        public int PostIndex { get; set; }
 
         public int Id { get; set; }
 
@@ -24,18 +25,22 @@
 
     public class NewCustomer : Customer
     {
+        public static decimal newDiscount = 0.15m;
+
         public override decimal GetDiscount()
         {
+            
             Product product = GetProduct();
 
             decimal fullPrice = product.ProductPrice;
-            decimal discounted = fullPrice - (fullPrice * 0.15m);
+            decimal discounted = fullPrice - (fullPrice * newDiscount);
             return discounted;
         }
     }
 
     public class RegularCustomer : Customer
     {
+        public static decimal regularDiscount = 0.10m;
         public override void Help(string issue)
         {
             base.Help(issue);
@@ -46,7 +51,7 @@
             Product product = GetProduct();
 
             decimal fullPrice = product.ProductPrice;
-            decimal discounted = fullPrice - (fullPrice * 0.10m);
+            decimal discounted = fullPrice - (fullPrice * regularDiscount);
             return discounted;
         }
     }
@@ -55,5 +60,18 @@
     {
         public Customer? Customer { get; set; }
         public decimal DiscountedPrice { get; set; }
+        public const decimal minPrice = 10m;
+        public bool IsPriceOk(decimal discounted)
+        {
+            if(discounted >= minPrice)
+            {
+                return true;
+            }
+            return false;
+        }
+        public static decimal GetMinPrice()
+        {
+            return minPrice;
+        }
     }
 }

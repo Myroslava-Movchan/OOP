@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Models;
 using Online_Store_Management.Services;
+using Online_Store_Management.Infrastructure;
 
 namespace Online_Store_Management.Controllers
 {
@@ -9,10 +10,13 @@ namespace Online_Store_Management.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ProductService productService;
+        private readonly Logger logger;
 
-        public ProductController()
+
+        public ProductController(Logger logger)
         {
-            productService = new ProductService();
+            this.logger = logger;
+            productService = new ProductService(logger);
         }
 
         [HttpGet]

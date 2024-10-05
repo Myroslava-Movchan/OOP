@@ -1,3 +1,4 @@
+using Online_Store_Management.Infrastructure;
 using Online_Store_Management.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<CustomerService>();
+
+builder.Services.AddScoped<Logger>();
 
 var app = builder.Build();
 

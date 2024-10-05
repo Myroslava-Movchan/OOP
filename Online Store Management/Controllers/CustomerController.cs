@@ -12,16 +12,18 @@ namespace Online_Store_Management.Controllers
         private readonly CustomerService customerService;
         public CustomerController(CustomerService customerService)
         {
-            this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService);
+            this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
         }
 
         [HttpGet("new")]
         public Discount GetNewCustomer()
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
-            using (CustomerService service = new(filepath))
+            using (CustomerService service = new())
             {
                 var newCustomer = customerService.GetNewCustomer();
+                FileStream transactionLogFileStream = new FileStream(filepath, FileMode.OpenOrCreate);
+                service.SetCustomerLogFileStream(transactionLogFileStream);
                 service.LogAction($"Create new customer: {newCustomer}");
                 return newCustomer;
             }
