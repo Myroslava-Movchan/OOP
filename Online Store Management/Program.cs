@@ -1,3 +1,6 @@
+using Online_Store_Management.Infrastructure;
+using Online_Store_Management.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<CustomerService>();
+
+builder.Services.AddScoped<Logger>();
 
 var app = builder.Build();
 

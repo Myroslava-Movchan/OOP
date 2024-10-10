@@ -1,4 +1,5 @@
 ﻿using Online_Store_Management.Models;
+using Online_Store_Management.Infrastructure;
 namespace Online_Store_Management.Services
 {
     public class ProductService
@@ -15,6 +16,11 @@ namespace Online_Store_Management.Services
             "Hat", "Socks",
             "Boots", "Sneakers"
         };
+        private readonly Logger logger;
+        public ProductService(Logger logger)
+        {
+            this.logger = logger;
+        }
 
         public Product GetProduct()
         {
@@ -25,6 +31,8 @@ namespace Online_Store_Management.Services
                 ProductName = productName,
                 ProductPrice = Random.Shared.Next(8, 230)
             };
+            product.Logger = logger;
+            product.CreateProduct();
 
             return product;
         }
