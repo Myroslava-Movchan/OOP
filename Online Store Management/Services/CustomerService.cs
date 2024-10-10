@@ -31,7 +31,7 @@ namespace Online_Store_Management.Services
         private FileStream _transactionLogFileStream;
         private bool _disposed = false;
 
-       
+
 
         public void LogAction(string message)
         {
@@ -60,7 +60,7 @@ namespace Online_Store_Management.Services
             {
                 return;
             }
-            if (disposing) 
+            if (disposing)
             {
                 _transactionLogFileStream?.Close();
                 _transactionLogFileStream?.Dispose();

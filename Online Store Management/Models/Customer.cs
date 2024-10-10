@@ -29,7 +29,7 @@
 
         public override decimal GetDiscount()
         {
-            
+
             Product product = GetProduct();
 
             decimal fullPrice = product.ProductPrice;
@@ -63,7 +63,7 @@
         public const decimal minPrice = 10m;
         public bool IsPriceOk(decimal discounted)
         {
-            if(discounted >= minPrice)
+            if (discounted >= minPrice)
             {
                 return true;
             }
