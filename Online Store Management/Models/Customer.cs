@@ -18,7 +18,7 @@
         public abstract decimal GetDiscount();
         public virtual void Help(string issue)
         {
-            Console.WriteLine($"The assistant will answer during one week to help you with you issue: {issue}.");
+            Console.WriteLine($"The assistant will answer during one week to help you with your issue: {issue}.");
         }
 
     }

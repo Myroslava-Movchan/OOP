@@ -6,7 +6,7 @@ namespace Online_Store_Management.Models
         public int OrderNumber { get; set; }
 
         public string? Gift { get; set; }
-        public int Delievery {  get; set; }
+        public int Delivery {  get; set; }
 
         public void ProductInfo(Product product)
         {

@@ -25,7 +25,7 @@ namespace Online_Store_Management.Services
                 ProductId = product.ProductId,
                 ProductPrice = product.ProductPrice,
                 ProductQuantity = product.ProductQuantity,
-                Delievery = EstimateDelievery(product)
+                Delivery = EstimateDelivery(product)
             };
 
             object objOrder = orderInfo;
@@ -61,13 +61,13 @@ namespace Online_Store_Management.Services
             orderTable.Add(order);
             return true;
         }
-        public int EstimateDelievery()
+        public int EstimateDelivery()
         {
             int delieverySum = 120;
             return delieverySum;
         }
 
-        public int EstimateDelievery(Product product)
+        public int EstimateDelivery(Product product)
         {
             int delieverySum = 100;
             if (product.ProductQuantity >= 6)

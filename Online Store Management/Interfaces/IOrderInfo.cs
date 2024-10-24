@@ -7,7 +7,7 @@ namespace Online_Store_Management.Interfaces
         OrderInfo Post(Product product);
         bool CompareOrders(OrderInfo order);
         bool AddToTable(OrderInfo order);
-        int EstimateDelievery();
-        int EstimateDelievery(Product product);
+        int EstimateDelivery();
+        int EstimateDelivery(Product product);
     }
 }
