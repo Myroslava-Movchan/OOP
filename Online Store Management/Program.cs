@@ -1,7 +1,7 @@
 using Online_Store_Management.Infrastructure;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Services;
-using Xkcd;
+using Catalogue;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.AddScoped<IOrderInfo, OrderInfoService>();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<XkcdClient>();
+builder.Services.AddScoped<CatalogueClient>();
 builder.Services.AddScoped<Logger>();
 
 var app = builder.Build();

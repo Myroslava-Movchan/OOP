@@ -25,5 +25,12 @@ namespace Online_Store_Management.Controllers
             var product = productService.GetProduct();
             return product;
         }
+
+        [HttpGet("struct-product")]
+        public ProductStruct GetStructProduct()
+        {
+            var structProduct = productService.GetProductStruct();
+            return structProduct;
+        }
     }
 }

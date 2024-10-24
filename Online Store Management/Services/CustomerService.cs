@@ -32,8 +32,6 @@ namespace Online_Store_Management.Services
         private FileStream _transactionLogFileStream;
         private bool _disposed = false;
 
-
-
         public void LogAction(string message)
         {
             if (_disposed)
@@ -76,7 +74,8 @@ namespace Online_Store_Management.Services
             var customer = new NewCustomer()
             {
                 LastName = lastName,
-                Id = Random.Shared.Next(1, 6)
+                Id = Random.Shared.Next(1, 6),
+                PostIndex = PostIndexes[Random.Shared.Next(PostIndexes.Length)]
             };
             var product = new Product()
             {

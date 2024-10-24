@@ -9,5 +9,6 @@ namespace Online_Store_Management.Interfaces
         void Dispose();
         Discount GetNewCustomer();
         Discount GetRegularCustomer();
+
     }
 }

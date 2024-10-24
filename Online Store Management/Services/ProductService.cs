@@ -37,5 +37,18 @@ namespace Online_Store_Management.Services
             return product;
         }
 
+        public ProductStruct GetProductStruct()
+        {
+            var productName = Products[Random.Shared.Next(Products.Length)];
+            var productStruct = new ProductStruct(
+                productId: Random.Shared.Next(1, 18),
+                productName: productName,
+                productPrice: Random.Shared.Next(8, 230),
+                productQuantity: Random.Shared.Next(1, 10)
+            );
+
+            return productStruct;
+        }
+
     }
 }
