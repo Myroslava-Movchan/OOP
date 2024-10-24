@@ -26,7 +26,7 @@ namespace Online_Store_Management.Controllers
             using (var transactionLogFileStream = new FileStream("transaction.log", FileMode.Append))
             {
                 byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow.Ticks}, {newCustomer}");
-                await transactionLogFileStream.WriteAsync(messageBytes, 0, messageBytes.Length, cancellationToken); // це треба перенести в сервіс
+                await transactionLogFileStream.WriteAsync(messageBytes, 0, messageBytes.Length, cancellationToken);
             }
             return newCustomer;
         }
