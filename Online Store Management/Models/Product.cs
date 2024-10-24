@@ -8,6 +8,5 @@
 
         public int? ProductQuantity { get; set; }
 
-
     }
 }

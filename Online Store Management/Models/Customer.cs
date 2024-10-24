@@ -20,6 +20,10 @@
         {
             Console.WriteLine($"The assistant will answer during one week to help you with your issue: {issue}.");
         }
+        public  void Recommendation()
+        {
+            Console.WriteLine("Turn on your notifications to receive information about new products!");
+        }
 
     }
 
@@ -35,6 +39,10 @@
             decimal fullPrice = product.ProductPrice;
             decimal discounted = fullPrice - (fullPrice * newDiscount);
             return discounted;
+        }
+        public new void Recommendation()
+        {
+            Console.WriteLine("Order 2+ products and get a free sample!");
         }
     }
 
@@ -53,6 +61,10 @@
             decimal fullPrice = product.ProductPrice;
             decimal discounted = fullPrice - (fullPrice * regularDiscount);
             return discounted;
+        }
+        public new void Recommendation()
+        {
+            Console.WriteLine("Do not forget to check your email for new offers!");
         }
     }
 
