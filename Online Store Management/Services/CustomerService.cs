@@ -1,7 +1,8 @@
 ﻿using Online_Store_Management.Models;
+using Online_Store_Management.Interfaces;
 namespace Online_Store_Management.Services
 {
-    public class CustomerService : IDisposable
+    public class CustomerService : ICustomer
     {
         private static readonly string[] LastNamesNew = new[]
         {

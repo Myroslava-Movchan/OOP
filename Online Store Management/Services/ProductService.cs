@@ -1,8 +1,9 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Infrastructure;
+using Online_Store_Management.Interfaces;
 namespace Online_Store_Management.Services
 {
-    public class ProductService
+    public class ProductService : IProduct
     {
         private static readonly string[] Products = new[]
         {
@@ -29,12 +30,12 @@ namespace Online_Store_Management.Services
             {
                 ProductId = Random.Shared.Next(1, 18),
                 ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230)
+                ProductPrice = Random.Shared.Next(8, 230),
+                ProductQuantity = Random.Shared.Next(1, 10)
             };
-            product.Logger = logger;
-            product.CreateProduct();
 
             return product;
         }
+
     }
 }
