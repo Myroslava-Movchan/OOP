@@ -2,6 +2,8 @@
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 
+using Online_Store_Management.Services;
+
 namespace Online_Store_Management.Controllers
 {
     [ApiController]
@@ -36,6 +38,17 @@ namespace Online_Store_Management.Controllers
         {
             var regularCustomer = customerService.GetRegularCustomer();
             return regularCustomer;
+        }
+
+        [HttpGet]
+        public async Task<Customer?> GetAsync(int id, CancellationToken cancellationToken)
+        {
+            var result =  await customerService.GetCustomerAsync(id, cancellationToken);
+            if(result == null || result.Id == 0)
+            {
+                return null;
+            }
+            return result;
         }
 
     }

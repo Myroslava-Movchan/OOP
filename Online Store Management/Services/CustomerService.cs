@@ -1,9 +1,12 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
+using Online_Store_Management.DataAccess;
+using System.Threading;
 namespace Online_Store_Management.Services
 {
     public class CustomerService : ICustomer
     {
+        private readonly IRepository<Customer> customerRepository;
         private static readonly string[] LastNamesNew = new[]
         {
             "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
@@ -30,14 +33,9 @@ namespace Online_Store_Management.Services
         };
 
         private FileStream _transactionLogFileStream;
-        private bool _disposed = false;
 
         public void LogAction(string message)
         {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(nameof(CustomerService));
-            }
             byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow}: {message}\n");
             _transactionLogFileStream.Write(messageBytes, 0, messageBytes.Length);
         }
@@ -45,26 +43,6 @@ namespace Online_Store_Management.Services
         public void SetCustomerLogFileStream(FileStream customerLogFileStream)
         {
             this._transactionLogFileStream = customerLogFileStream;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            if (disposing)
-            {
-                _transactionLogFileStream?.Close();
-                _transactionLogFileStream?.Dispose();
-            }
-            _disposed = true;
         }
 
         public Discount GetNewCustomer()
@@ -120,10 +98,15 @@ namespace Online_Store_Management.Services
             };
 
         }
-
-        ~CustomerService()
+        public CustomerService(IRepository<Customer> customerRepository)
         {
-            Dispose(false);
+            this.customerRepository = customerRepository
+            ?? throw new ArgumentNullException(nameof(customerRepository));
+        }
+
+        public async Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken)
+        {
+           return await customerRepository.GetByIdAsync(id, cancellationToken);
         }
     }
 }

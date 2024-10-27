@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-// this part (external API) was written with help of ChatGPT 
 namespace Catalogue.Controllers
 {
     [Route("api/[controller]")]
@@ -14,26 +13,25 @@ namespace Catalogue.Controllers
             _catalogueClient = catalogueClient;
         }
 
-        [HttpGet("socks")]
-        public async Task<IActionResult> GetSocksImagesAsync(CancellationToken cancellationToken)
+        [HttpGet("images")]
+        public async Task<IActionResult> GetProductImagesAsync(CancellationToken cancellationToken)
         {
+            var images = await _catalogueClient.GetProductImagesAsync(cancellationToken);
 
-            var images = _catalogueClient.GetSocksImageAsync(cancellationToken);
-
-            var imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "SocksImages");
+            var imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Product_Images");
             if (!Directory.Exists(imagesDirectory))
             {
                 Directory.CreateDirectory(imagesDirectory);
             }
 
-            await foreach (var image in images.WithCancellation(cancellationToken))
+            foreach (var image in images)
             {
-                var filePath = Path.Combine(imagesDirectory, $"socks-{image.Name}");
+                var filePath = Path.Combine(imagesDirectory, $"products-{image.Name}");
 
                 await System.IO.File.WriteAllBytesAsync(filePath, image.Content, cancellationToken);
             }
 
-            return Ok(new { Message = "Socks images downloaded successfully.", Directory = imagesDirectory });
+            return Ok(new { Message = "Product images downloaded successfully.", Directory = imagesDirectory });
         }
     }
 }

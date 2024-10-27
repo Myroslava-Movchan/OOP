@@ -6,9 +6,8 @@ namespace Online_Store_Management.Interfaces
     {
         void LogAction(string message);
         void SetCustomerLogFileStream(FileStream customerLogFileStream);
-        void Dispose();
         Discount GetNewCustomer();
         Discount GetRegularCustomer();
-
+        Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken);
     }
 }

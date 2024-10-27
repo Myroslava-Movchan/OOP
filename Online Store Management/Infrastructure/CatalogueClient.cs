@@ -1,73 +1,67 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-
-// this part (external API) was written with help of ChatGPT 
-namespace Catalogue
+﻿namespace Catalogue
 {
     public class CatalogueClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private const string SocksCategoryUrl = "https://maikbook.com/?product_cat=socks";
+        private const string ProductsUrl = "https://fakestoreapi.com/products";
 
         public CatalogueClient(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        public async IAsyncEnumerable<(string? Name, byte[] Content)> GetSocksImageAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async Task<List<(string? Name, byte[] Content)>> GetProductImagesAsync(CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync(SocksCategoryUrl, cancellationToken);
+            var response = await httpClient.GetAsync(ProductsUrl, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
+            response.EnsureSuccessStatusCode();
+
+            var products = response.Content.ReadFromJsonAsAsyncEnumerable<ExternalProduct>(cancellationToken);
+            var results = new List<(string? Name, byte[] Content)>();
+
+            await foreach (var product in products.WithCancellation(cancellationToken))
             {
-                throw new HttpRequestException($"Failed to fetch content from {SocksCategoryUrl}. Status Code: {response.StatusCode}");
+                if (product?.Image == null) continue;
+
+                var imageName = Path.GetFileName(product.Image);
+                var imageContent = await FetchImageContentAsync(httpClient, product.Image, cancellationToken);
+
+                if (imageContent != null)
+                {
+                    results.Add((imageName, imageContent));
+                }
             }
 
-            var htmlContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            var imageUrls = ExtractImageUrlsFromHtml(htmlContent);
-
-            foreach (var imageUrl in imageUrls)
-            {
-                var imageName = Path.GetFileName(imageUrl);
-                byte[] content;
-
-                var imageResponse = await httpClient.GetAsync(imageUrl, cancellationToken);
-                if (!imageResponse.IsSuccessStatusCode)
-                {
-                    continue;
-                }
-
-                using (var imageStream = await imageResponse.Content.ReadAsStreamAsync(cancellationToken))
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        await imageStream.CopyToAsync(ms, cancellationToken);
-                        content = ms.ToArray();
-                    }
-                }
-
-                yield return (imageName, content);
-            }
+            return results;
         }
 
-        private IEnumerable<string> ExtractImageUrlsFromHtml(string htmlContent)
+        private async Task<byte[]?> FetchImageContentAsync(HttpClient httpClient, string imageUrl, CancellationToken cancellationToken)
         {
-            // Regex to match image URLs with extensions typically used for product images
-            var regex = new Regex(@"<img[^>]+src=""([^""]+\.jpg|\.jpeg|\.png)""", RegexOptions.IgnoreCase);
-            var matches = regex.Matches(htmlContent);
+            var imageResponse = await httpClient.GetAsync(imageUrl, cancellationToken);
+            if (!imageResponse.IsSuccessStatusCode) return null;
 
-            foreach (Match match in matches)
-            {
-                if (match.Success && match.Groups.Count > 1)
-                {
-                    var url = match.Groups[1].Value;
-                    if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
-                    {
-                        yield return url;
-                    }
-                }
-            }
+            using var imageStream = await imageResponse.Content.ReadAsStreamAsync(cancellationToken);
+            using var ms = new MemoryStream();
+            await imageStream.CopyToAsync(ms, cancellationToken);
+            return ms.ToArray();
         }
+    }
+
+    public class ExternalProduct
+    {
+        public int Id { get; set; }
+        public string Tittle { get; set; }
+        public decimal Price { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public string Image { get; set; }
+        public ProductRating Rating { get; set; }
+    }
+
+    public class ProductRating
+    {
+        public int Count { get; set; }
+        public decimal Rate { get; set; }
     }
 }
