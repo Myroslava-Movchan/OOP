@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 using Online_Store_Management.Services;
+
 
 namespace Online_Store_Management.Controllers
 {
@@ -8,19 +10,19 @@ namespace Online_Store_Management.Controllers
     [Route("[controller]")]
     public class OrderInfoController : ControllerBase
     {
-        private readonly OrderInfoService orderInfoService;
+        private readonly IOrderInfo orderInfoService;
 
-        public OrderInfoController()
+        public OrderInfoController(IOrderInfo orderInfoService)
         {
-            orderInfoService = new OrderInfoService();
+            this.orderInfoService = orderInfoService;
         }
 
         [HttpPost]
         public OrderInfo Post(Product product)
         {
-            var orderInfo = orderInfoService.Post;
-            var addToTable = orderInfoService.AddToTable;
-            return orderInfo(product);
+            var orderInfo = orderInfoService.Post(product);
+            var addToTable = orderInfoService.AddToTable(orderInfo);
+            return orderInfo;
         }
 
         [HttpPost("CompareOrders")]

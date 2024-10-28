@@ -6,12 +6,14 @@ namespace Online_Store_Management.Models
         public int OrderNumber { get; set; }
 
         public string? Gift { get; set; }
+        public int Delivery {  get; set; }
 
         public void ProductInfo(Product product)
         {
             this.ProductName = product.ProductName;
             this.ProductPrice = product.ProductPrice;
             this.ProductId = product.ProductId;
+            this.ProductQuantity = product.ProductQuantity;
         }
 
         public override bool Equals(object? obj)

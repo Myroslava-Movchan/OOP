@@ -1,8 +1,9 @@
 ﻿using Online_Store_Management.Models;
 using System.Collections;
+using Online_Store_Management.Interfaces;
 namespace Online_Store_Management.Services
 {
-    public class OrderInfoService
+    public class OrderInfoService : IOrderInfo
     {
         private readonly ArrayList orders = new ArrayList(100);
         private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
@@ -22,7 +23,9 @@ namespace Online_Store_Management.Services
                 Gift = gifts,
                 ProductName = product.ProductName,
                 ProductId = product.ProductId,
-                ProductPrice = product.ProductPrice
+                ProductPrice = product.ProductPrice,
+                ProductQuantity = product.ProductQuantity,
+                Delivery = EstimateDelivery(product)
             };
 
             object objOrder = orderInfo;
@@ -58,6 +61,21 @@ namespace Online_Store_Management.Services
             orderTable.Add(order);
             return true;
         }
-        
+        public int EstimateDelivery()
+        {
+            int delieverySum = 120;
+            return delieverySum;
+        }
+
+        public int EstimateDelivery(Product product)
+        {
+            int delieverySum = 100;
+            if (product.ProductQuantity >= 6)
+            {
+                delieverySum = 80;
+            }
+            return delieverySum;
+        }
+
     }
 }
