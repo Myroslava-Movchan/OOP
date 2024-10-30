@@ -20,16 +20,16 @@ namespace Online_Store_Management.Controllers
         }
 
         [HttpGet]
-        public Product? GetProduct()
+        public async Task<Product?> GetProductAsync(CancellationToken cancellationToken)
         {
-            var product = productService.GetProduct();
+            var product = await productService.GetProductAsync(cancellationToken);
             return product;
         }
 
         [HttpGet("struct-product")]
-        public ProductStruct GetStructProduct()
+        public async Task<ProductStruct> GetStructProductAsync(CancellationToken cancellationToken)
         {
-            var structProduct = productService.GetProductStruct();
+            var structProduct = await productService.GetProductStructAsync(cancellationToken);
             return structProduct;
         }
     }

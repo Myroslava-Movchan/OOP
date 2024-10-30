@@ -14,8 +14,9 @@ namespace Online_Store_Management.Services
             "Hairclip", "Socks"
         ];
 
-        public OrderInfo Post(Product product)
+        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var gifts = Gifts[Random.Shared.Next(Gifts.Length)];
             var orderInfo = new OrderInfo()
             {
@@ -25,7 +26,7 @@ namespace Online_Store_Management.Services
                 ProductId = product.ProductId,
                 ProductPrice = product.ProductPrice,
                 ProductQuantity = product.ProductQuantity,
-                Delivery = EstimateDelivery(product)
+                Delivery = await EstimateDeliveryAsync(product, cancellationToken)
             };
 
             object objOrder = orderInfo;
@@ -34,8 +35,9 @@ namespace Online_Store_Management.Services
             return order;
         }
 
-        public bool CompareOrders(OrderInfo order)
+        public async Task<bool> CompareOrdersAsync(OrderInfo order, CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             bool compare = false;
             foreach (var existingOrder in orders)
             {
@@ -48,8 +50,9 @@ namespace Online_Store_Management.Services
             return compare;
         }
 
-        public bool AddToTable(OrderInfo order)
+        public async Task<bool> AddToTableAsync(OrderInfo order, CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var orderHashCode = order.GetHashCode();
             foreach (var existingOrder in orders)
             {
@@ -61,14 +64,16 @@ namespace Online_Store_Management.Services
             orderTable.Add(order);
             return true;
         }
-        public int EstimateDelivery()
+        public async Task<int> EstimateDeliveryAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             int delieverySum = 120;
             return delieverySum;
         }
 
-        public int EstimateDelivery(Product product)
+        public async Task<int> EstimateDeliveryAsync(Product product, CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             int delieverySum = 100;
             if (product.ProductQuantity >= 6)
             {

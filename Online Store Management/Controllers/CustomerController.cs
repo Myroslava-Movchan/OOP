@@ -24,20 +24,20 @@ namespace Online_Store_Management.Controllers
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
             
-            var newCustomer = customerService.GetNewCustomer();
+            var newCustomer = customerService.GetNewCustomerAsync(cancellationToken);
             using (var transactionLogFileStream = new FileStream("transaction.log", FileMode.Append))
             {
                 byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow.Ticks}, {newCustomer}");
                 await transactionLogFileStream.WriteAsync(messageBytes, 0, messageBytes.Length, cancellationToken);
             }
-            return newCustomer;
+            return await newCustomer;
         }
 
         [HttpGet("regular")]
-        public Discount GetRegularCustomer()
+        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
         {
-            var regularCustomer = customerService.GetRegularCustomer();
-            return regularCustomer;
+            var regularCustomer = customerService.GetRegularCustomerAsync(cancellationToken);
+            return await regularCustomer;
         }
 
         [HttpGet]

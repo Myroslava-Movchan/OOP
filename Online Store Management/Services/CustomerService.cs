@@ -45,8 +45,9 @@ namespace Online_Store_Management.Services
             this._transactionLogFileStream = customerLogFileStream;
         }
 
-        public Discount GetNewCustomer()
+        public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
             var lastName = LastNamesNew[Random.Shared.Next(LastNamesNew.Length)];
             var customer = new NewCustomer()
@@ -71,8 +72,9 @@ namespace Online_Store_Management.Services
             };
         }
 
-        public Discount GetRegularCustomer()
+        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
             var lastName = LastNamesRegular[Random.Shared.Next(LastNamesRegular.Length)];
             var postIndex = PostIndexes[Random.Shared.Next(PostIndexes.Length)];

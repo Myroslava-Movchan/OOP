@@ -18,17 +18,17 @@ namespace Online_Store_Management.Controllers
         }
 
         [HttpPost]
-        public OrderInfo Post(Product product)
+        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
         {
-            var orderInfo = orderInfoService.Post(product);
-            var addToTable = orderInfoService.AddToTable(orderInfo);
+            var orderInfo = await orderInfoService.PostAsync(product, cancellationToken);
+            var addToTable = orderInfoService.AddToTableAsync(orderInfo, cancellationToken);
             return orderInfo;
         }
 
         [HttpPost("CompareOrders")]
-        public bool Compare(OrderInfo order)
+        public async Task<bool> CompareAsync(OrderInfo order, CancellationToken cancellationToken)
         {
-            var answer = orderInfoService.CompareOrders(order);
+            var answer = await orderInfoService.CompareOrdersAsync(order, cancellationToken);
             return answer;
         }
 
