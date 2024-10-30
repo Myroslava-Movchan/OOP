@@ -106,7 +106,26 @@ namespace Online_Store_Management.Services
 
         public async Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken)
         {
-           return await customerRepository.GetByIdAsync(id, cancellationToken);
+            return await customerRepository.GetByIdAsync(id, cancellationToken);
+        }
+
+        public IEnumerable<string> GetLastNamesStartingWithS()
+        {
+            IEnumerable<string> lastNameNewQuery =
+                from name in LastNamesNew
+                where name.StartsWith("S")
+                select name;
+
+            return lastNameNewQuery;
+        }
+
+        public IEnumerable<int> GetIndexesDesc()
+        {
+            IEnumerable<int> postIndexQuery =
+                from index in PostIndexes
+                orderby index descending
+                select index;
+            return postIndexQuery;
         }
     }
 }

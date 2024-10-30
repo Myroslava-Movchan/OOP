@@ -50,5 +50,10 @@ namespace Online_Store_Management.Services
             return productStruct;
         }
 
+        public IEnumerable<string> GetListOfProducts()
+        {
+            return Products.Where(p => p.Length > 4).ToList();
+        }
+
     }
 }
