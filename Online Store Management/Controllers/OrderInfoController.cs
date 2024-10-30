@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
-using Online_Store_Management.Services;
 
 
 namespace Online_Store_Management.Controllers
