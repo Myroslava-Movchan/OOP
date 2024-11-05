@@ -1,4 +1,5 @@
 ﻿using Online_Store_Management.Models;
+using Online_Store_Management.DataAccess;
 
 namespace Online_Store_Management.Interfaces
 {
@@ -8,6 +9,9 @@ namespace Online_Store_Management.Interfaces
         void SetCustomerLogFileStream(FileStream customerLogFileStream);
         Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken);
         Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken);
-        Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken);
+        Task<CustomerDbModel> GetCustomerByIdAsync(int id, CancellationToken cancellationToken);
+        Task AddCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken);
+        Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken);
+        Task DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

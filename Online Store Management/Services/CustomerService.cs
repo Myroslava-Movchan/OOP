@@ -1,12 +1,11 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.DataAccess;
-using System.Threading;
 namespace Online_Store_Management.Services
 {
     public class CustomerService : ICustomer
     {
-        private readonly IRepository<Customer> customerRepository;
+        private readonly IRepository<CustomerDbModel> customerRepository;
         private static readonly string[] LastNamesNew = new[]
         {
             "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
@@ -100,15 +99,30 @@ namespace Online_Store_Management.Services
             };
 
         }
-        public CustomerService(IRepository<Customer> customerRepository)
+        public CustomerService(IRepository<CustomerDbModel> customerRepository)
         {
             this.customerRepository = customerRepository
             ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
-        public async Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken)
+        public async Task<CustomerDbModel?> GetCustomerByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await customerRepository.GetByIdAsync(id, cancellationToken);
+        }
+
+        public async Task AddCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerRepository.AddAsync(customer, cancellationToken);
+        }
+
+        public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerRepository.UpdateAsync(customer, cancellationToken);
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await customerRepository.DeleteAsync(id, cancellationToken);
         }
 
         public IEnumerable<string> GetLastNamesStartingWithS()
