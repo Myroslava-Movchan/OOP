@@ -23,8 +23,9 @@ namespace Online_Store_Management.Services
             this.logger = logger;
         }
 
-        public Product GetProduct()
+        public async Task<Product> GetProductAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(150, cancellationToken);  //delays this process in order not to block other running processes
             var productName = Products[Random.Shared.Next(Products.Length)];
             var product = new Product()
             {
@@ -37,8 +38,9 @@ namespace Online_Store_Management.Services
             return product;
         }
 
-        public ProductStruct GetProductStruct()
+        public async Task<ProductStruct> GetProductStructAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
             var productStruct = new ProductStruct(
                 productId: Random.Shared.Next(1, 18),
@@ -48,6 +50,11 @@ namespace Online_Store_Management.Services
             );
 
             return productStruct;
+        }
+
+        public IEnumerable<string> GetListOfProducts()
+        {
+            return Products.Where(p => p.Length > 4).ToList();
         }
 
     }

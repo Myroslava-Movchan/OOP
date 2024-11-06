@@ -1,46 +1,52 @@
-﻿using Online_Store_Management.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 
 namespace Online_Store_Management.DataAccess
 {
-    public class CustomerRepository : IRepository<Customer>
+    public class CustomerRepository : IRepository<CustomerDbModel>
     {
         private static readonly List<Customer> _customer = new();
-        public async Task AddAsync(Customer entity, CancellationToken cancellationToken)
+        private readonly CustomerDBContext _context;
+
+        public CustomerRepository(CustomerDBContext context)
         {
-            await Task.Run(() => _customer.Add(entity), cancellationToken);
+            _context = context;
+        }
+        public async Task AddAsync(CustomerDbModel entity, CancellationToken cancellationToken)
+        {
+            await _context.Customers.AddAsync(entity, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<Customer?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<CustomerDbModel?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await Task.Run(() => _customer?.Find(a => a.Id == id), cancellationToken);
+            return await _context.Customers.FindAsync(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<Customer>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<CustomerDbModel>> GetAllAsync(CancellationToken cancellationToken)
         {
-            return await Task.Run(() => _customer, cancellationToken);
+            return await _context.Customers.ToListAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(Customer entity, CancellationToken cancellationToken)
+        public async Task UpdateAsync(CustomerDbModel entity, CancellationToken cancellationToken)
         {
-            if (entity == null || entity.Id == 0)
+            var existingEntity = await _context.Customers.FindAsync(entity.Id, cancellationToken);
+            if (existingEntity == null)
             {
-                throw new ArgumentNullException(nameof(entity));
+                throw new InvalidOperationException($"Customer with id {entity.Id} does not exist");
             }
-            var existingCustomer = await GetByIdAsync(entity.Id, cancellationToken);
-            if (existingCustomer != null)
-            {
-                existingCustomer.LastName = entity.LastName;
-                existingCustomer.PostIndex = entity.PostIndex;
-            }
+            _context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var customerDelete = await GetByIdAsync(id, cancellationToken);
-            if (customerDelete != null)
-            { 
-                await Task.Run(() => _customer.Remove(customerDelete), cancellationToken);
+            var entity = await _context.Customers.FindAsync(id, cancellationToken);
+            if (entity != null)
+            {
+                _context.Customers.Remove(entity);
+                await _context.SaveChangesAsync(cancellationToken);
             }
         }
     }

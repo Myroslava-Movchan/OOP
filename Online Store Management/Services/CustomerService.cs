@@ -1,12 +1,11 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.DataAccess;
-using System.Threading;
 namespace Online_Store_Management.Services
 {
     public class CustomerService : ICustomer
     {
-        private readonly IRepository<Customer> customerRepository;
+        private readonly IRepository<CustomerDbModel> customerRepository;
         private static readonly string[] LastNamesNew = new[]
         {
             "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
@@ -45,8 +44,9 @@ namespace Online_Store_Management.Services
             this._transactionLogFileStream = customerLogFileStream;
         }
 
-        public Discount GetNewCustomer()
+        public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
             var lastName = LastNamesNew[Random.Shared.Next(LastNamesNew.Length)];
             var customer = new NewCustomer()
@@ -71,8 +71,9 @@ namespace Online_Store_Management.Services
             };
         }
 
-        public Discount GetRegularCustomer()
+        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
             var lastName = LastNamesRegular[Random.Shared.Next(LastNamesRegular.Length)];
             var postIndex = PostIndexes[Random.Shared.Next(PostIndexes.Length)];
@@ -98,15 +99,49 @@ namespace Online_Store_Management.Services
             };
 
         }
-        public CustomerService(IRepository<Customer> customerRepository)
+        public CustomerService(IRepository<CustomerDbModel> customerRepository)
         {
             this.customerRepository = customerRepository
             ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
-        public async Task<Customer> GetCustomerAsync(int id, CancellationToken cancellationToken)
+        public async Task<CustomerDbModel?> GetCustomerByIdAsync(int id, CancellationToken cancellationToken)
         {
-           return await customerRepository.GetByIdAsync(id, cancellationToken);
+            return await customerRepository.GetByIdAsync(id, cancellationToken);
+        }
+
+        public async Task AddCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerRepository.AddAsync(customer, cancellationToken);
+        }
+
+        public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerRepository.UpdateAsync(customer, cancellationToken);
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await customerRepository.DeleteAsync(id, cancellationToken);
+        }
+
+        public IEnumerable<string> GetLastNamesStartingWithS()
+        {
+            IEnumerable<string> lastNameNewQuery =
+                from name in LastNamesNew
+                where name.StartsWith("S")
+                select name;
+
+            return lastNameNewQuery;
+        }
+
+        public IEnumerable<int> GetIndexesDesc()
+        {
+            IEnumerable<int> postIndexQuery =
+                from index in PostIndexes
+                orderby index descending
+                select index;
+            return postIndexQuery;
         }
     }
 }

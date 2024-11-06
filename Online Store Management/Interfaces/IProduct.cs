@@ -4,6 +4,6 @@ namespace Online_Store_Management.Interfaces
 {
     public interface IProduct
     {
-        Product GetProduct();
+        Task<Product> GetProductAsync(CancellationToken cancellationToken);
     }
 }
