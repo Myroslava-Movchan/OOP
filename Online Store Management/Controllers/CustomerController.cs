@@ -19,7 +19,7 @@ namespace Online_Store_Management.Controllers
 
 
         [HttpGet("new")]
-        public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
+        public async Task<Discount> CreateNewCustomerAsync(CancellationToken cancellationToken)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
 
@@ -32,12 +32,18 @@ namespace Online_Store_Management.Controllers
             return await newCustomer;
         }
 
-        /*[HttpGet("regular")]
-        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
+        [HttpGet("regular")]
+        public async Task<Discount> CreateRegularCustomerAsync(CancellationToken cancellationToken)
         {
             var regularCustomer = customerService.GetRegularCustomerAsync(cancellationToken);
             return await regularCustomer;
-        }*/
+        }
+
+        [HttpPost("Add new customer")]
+        public async Task AddNewCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerService.AddCustomerAsync(customer, cancellationToken);
+        }
 
         [HttpGet("Get customer by ID")]
 
@@ -49,12 +55,6 @@ namespace Online_Store_Management.Controllers
                 return NotFound();
             }
             return Ok(result);
-        }
-
-        [HttpPost("Add new customer")]
-        public async Task AddNewCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
-        {
-            await customerService.AddCustomerAsync(customer, cancellationToken);
         }
 
         [HttpPut("Update customer")]
