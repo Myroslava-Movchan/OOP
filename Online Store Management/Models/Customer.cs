@@ -17,6 +17,7 @@ namespace Online_Store_Management.Models
 
         public void SetProduct(Product value)
         { _product = value; }
+
         public abstract decimal GetDiscount();
         public virtual void Help(string issue)
         {

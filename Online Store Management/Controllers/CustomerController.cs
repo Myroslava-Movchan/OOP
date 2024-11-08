@@ -11,6 +11,7 @@ namespace Online_Store_Management.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomer customerService;
+        private readonly INotificationService notificationService;
         public CustomerController(ICustomer customerService)
         {
             this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
@@ -58,9 +59,12 @@ namespace Online_Store_Management.Controllers
         }
 
         [HttpPut("Update customer")]
+
         public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
+            customerService.CustomerUpdate += notificationService.Notification;
             await customerService.UpdateAsync(customer, cancellationToken);
+            customerService.CustomerUpdate -= notificationService.Notification;
         }
 
         [HttpDelete("Delete customer")]
