@@ -12,12 +12,11 @@ namespace Online_Store_Management.Controllers
     {
         private readonly ICustomer customerService;
         private readonly INotificationService notificationService;
-        public CustomerController(ICustomer customerService)
+        public CustomerController(ICustomer customerService, INotificationService notificationService)
         {
             this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+            this.notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
-
-
 
         [HttpGet("new")]
         public async Task<Discount> CreateNewCustomerAsync(CancellationToken cancellationToken)
