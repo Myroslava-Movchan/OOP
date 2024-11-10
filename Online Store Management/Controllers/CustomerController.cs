@@ -11,15 +11,15 @@ namespace Online_Store_Management.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomer customerService;
-        public CustomerController(ICustomer customerService)
+        private readonly INotificationService notificationService;
+        public CustomerController(ICustomer customerService, INotificationService notificationService)
         {
             this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+            this.notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
         }
 
-
-
         [HttpGet("new")]
-        public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
+        public async Task<Discount> CreateNewCustomerAsync(CancellationToken cancellationToken)
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
 
@@ -32,12 +32,18 @@ namespace Online_Store_Management.Controllers
             return await newCustomer;
         }
 
-        /*[HttpGet("regular")]
-        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
+        [HttpGet("regular")]
+        public async Task<Discount> CreateRegularCustomerAsync(CancellationToken cancellationToken)
         {
             var regularCustomer = customerService.GetRegularCustomerAsync(cancellationToken);
             return await regularCustomer;
-        }*/
+        }
+
+        [HttpPost("Add new customer")]
+        public async Task AddNewCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
+        {
+            await customerService.AddCustomerAsync(customer, cancellationToken);
+        }
 
         [HttpGet("Get customer by ID")]
 
@@ -51,16 +57,13 @@ namespace Online_Store_Management.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Add new customer")]
-        public async Task AddNewCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
-        {
-            await customerService.AddCustomerAsync(customer, cancellationToken);
-        }
-
         [HttpPut("Update customer")]
+
         public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
+            customerService.CustomerUpdate += notificationService.Notification;
             await customerService.UpdateAsync(customer, cancellationToken);
+            customerService.CustomerUpdate -= notificationService.Notification;
         }
 
         [HttpDelete("Delete customer")]

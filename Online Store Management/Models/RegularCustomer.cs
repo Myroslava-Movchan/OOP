@@ -2,7 +2,14 @@
 {
     public class RegularCustomer : Customer
     {
+        public delegate decimal RegularCustomerDiscount();
+
         public static decimal regularDiscount = 0.10m;
+
+        public decimal ExecuteDiscount(RegularCustomerDiscount discount)
+        {
+            return discount();
+        }
         public override void Help(string issue)
         {
             base.Help(issue);

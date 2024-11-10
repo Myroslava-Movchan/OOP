@@ -90,12 +90,12 @@ namespace Online_Store_Management.Services
                 ProductPrice = Random.Shared.Next(8, 230)
             };
             customer.SetProduct(product);
-            var discountedPrice = customer.GetDiscount();
+            RegularCustomer.RegularCustomerDiscount getDiscount = customer.GetDiscount;
 
             return new Discount
             {
                 Customer = customer,
-                DiscountedPrice = discountedPrice
+                DiscountedPrice = customer.ExecuteDiscount(getDiscount)
             };
 
         }
@@ -115,9 +115,12 @@ namespace Online_Store_Management.Services
             await customerRepository.AddAsync(customer, cancellationToken);
         }
 
+        public delegate void CustomerUpdateHandler(CustomerDbModel customerUpdate);
+        public event CustomerUpdateHandler? CustomerUpdate;
         public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
             await customerRepository.UpdateAsync(customer, cancellationToken);
+             CustomerUpdate.Invoke(customer);
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)

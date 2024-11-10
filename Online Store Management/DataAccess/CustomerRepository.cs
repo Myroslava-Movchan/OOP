@@ -3,7 +3,7 @@ using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 
 namespace Online_Store_Management.DataAccess
-{
+{ 
     public class CustomerRepository : IRepository<CustomerDbModel>
     {
         private static readonly List<Customer> _customer = new();
