@@ -43,7 +43,6 @@ namespace Online_Store_Management.Services
         {
             this._transactionLogFileStream = customerLogFileStream;
         }
-
         public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
