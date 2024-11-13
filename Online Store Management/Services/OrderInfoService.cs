@@ -81,6 +81,5 @@ namespace Online_Store_Management.Services
             }
             return delieverySum;
         }
-
     }
 }

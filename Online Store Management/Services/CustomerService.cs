@@ -5,6 +5,8 @@ namespace Online_Store_Management.Services
 {
     public class CustomerService : ICustomer
     {
+        public delegate void CustomerUpdateHandler(CustomerDbModel customerUpdate);
+        public event CustomerUpdateHandler? CustomerUpdate;
         private readonly IRepository<CustomerDbModel> customerRepository;
         private static readonly string[] LastNamesNew = new[]
         {
@@ -114,12 +116,10 @@ namespace Online_Store_Management.Services
             await customerRepository.AddAsync(customer, cancellationToken);
         }
 
-        public delegate void CustomerUpdateHandler(CustomerDbModel customerUpdate);
-        public event CustomerUpdateHandler? CustomerUpdate;
         public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
             await customerRepository.UpdateAsync(customer, cancellationToken);
-             CustomerUpdate.Invoke(customer);
+            CustomerUpdate.Invoke(customer);
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
