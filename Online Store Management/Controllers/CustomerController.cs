@@ -12,10 +12,12 @@ namespace Online_Store_Management.Controllers
     {
         private readonly ICustomer customerService;
         private readonly INotificationService notificationService;
+        private readonly Func<CancellationToken, Task<Discount>> getNewCustomerFunc;
         public CustomerController(ICustomer customerService, INotificationService notificationService)
         {
             this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
             this.notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
+            this.getNewCustomerFunc = customerService.GetNewCustomerAsync;
         }
 
         [HttpGet("new")]
@@ -23,13 +25,13 @@ namespace Online_Store_Management.Controllers
         {
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
 
-            var newCustomer = customerService.GetNewCustomerAsync(cancellationToken);
+            var newCustomer = await getNewCustomerFunc(cancellationToken);
             using (var transactionLogFileStream = new FileStream("transaction.log", FileMode.Append))
             {
                 byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow.Ticks}, {newCustomer}");
                 await transactionLogFileStream.WriteAsync(messageBytes, 0, messageBytes.Length, cancellationToken);
             }
-            return await newCustomer;
+            return newCustomer;
         }
 
         [HttpGet("regular")]

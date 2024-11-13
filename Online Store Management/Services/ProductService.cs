@@ -37,7 +37,6 @@ namespace Online_Store_Management.Services
 
             return product;
         }
-
         public async Task<ProductStruct> GetProductStructAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
@@ -56,6 +55,5 @@ namespace Online_Store_Management.Services
         {
             return Products.Where(p => p.Length > 4).ToList();
         }
-
     }
 }
