@@ -1,6 +1,7 @@
 ﻿using Online_Store_Management.Models;
 using System.Collections;
 using Online_Store_Management.Interfaces;
+using Online_Store_Management.Extensions;
 namespace Online_Store_Management.Services
 {
     public class OrderInfoService : IOrderInfo
@@ -25,10 +26,11 @@ namespace Online_Store_Management.Services
                 ProductName = product.ProductName,
                 ProductId = product.ProductId,
                 ProductPrice = product.ProductPrice,
-                ProductQuantity = product.ProductQuantity,
-                Delivery = await EstimateDeliveryAsync(product, cancellationToken)
+                ProductQuantity = product.ProductQuantity
+
             };
 
+            var delivery = OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
             object objOrder = orderInfo;
             orders.Add(objOrder);
             OrderInfo order = (OrderInfo)objOrder;
@@ -71,15 +73,5 @@ namespace Online_Store_Management.Services
             return delieverySum;
         }
 
-        public async Task<int> EstimateDeliveryAsync(Product product, CancellationToken cancellationToken)
-        {
-            await Task.Delay(50, cancellationToken);
-            int delieverySum = 100;
-            if (product.ProductQuantity >= 6)
-            {
-                delieverySum = 80;
-            }
-            return delieverySum;
-        }
     }
 }

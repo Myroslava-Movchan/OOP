@@ -8,6 +8,5 @@ namespace Online_Store_Management.Interfaces
         Task<bool> CompareOrdersAsync(OrderInfo order, CancellationToken cancellationToken);
         Task<bool> AddToTableAsync(OrderInfo order, CancellationToken cancellationToken);
         Task<int> EstimateDeliveryAsync(CancellationToken cancellationToken);
-        Task<int> EstimateDeliveryAsync(Product product, CancellationToken cancellationToken);
     }
 }

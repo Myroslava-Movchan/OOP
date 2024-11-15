@@ -6,7 +6,7 @@ namespace Online_Store_Management.Interfaces
 {
     public interface ICustomer
     {
-        void LogAction(string message);
+        Task LogActionAsync(Customer customer, string message, CancellationToken cancellationToken);
         void SetCustomerLogFileStream(FileStream customerLogFileStream);
         Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken);
         Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken);
