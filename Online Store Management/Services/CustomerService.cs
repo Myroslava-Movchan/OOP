@@ -35,10 +35,11 @@ namespace Online_Store_Management.Services
 
         private FileStream _transactionLogFileStream;
 
-        public void LogAction(string message)
+        public async Task LogActionAsync(Customer customer, string message, CancellationToken cancellationToken)
         {
             byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow}: {message}\n");
             _transactionLogFileStream.Write(messageBytes, 0, messageBytes.Length);
+            await Infrastructure.Logger.LogToConsole(customer, cancellationToken);
         }
 
         public void SetCustomerLogFileStream(FileStream customerLogFileStream)

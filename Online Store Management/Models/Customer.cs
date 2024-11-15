@@ -4,7 +4,7 @@ namespace Online_Store_Management.Models
 
     public abstract class Customer
     {
-        private Product _product;
+        private Product? _product;
 
         [Key]
         public int Id { get; set; }
@@ -12,7 +12,7 @@ namespace Online_Store_Management.Models
         public required string? LastName { get; set; }
         public int PostIndex { get; set; }
 
-        public Product GetProduct()
+        public Product? GetProduct()
         { return _product; }
 
         public void SetProduct(Product value)
