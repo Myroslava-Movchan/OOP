@@ -17,7 +17,7 @@
         }
         public override decimal GetDiscount()
         {
-            Product product = GetProduct();
+            Product? product = GetProduct();
 
             decimal fullPrice = product.ProductPrice;
             decimal discounted = fullPrice - (fullPrice * regularDiscount);

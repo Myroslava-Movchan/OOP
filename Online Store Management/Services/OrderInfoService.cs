@@ -30,7 +30,7 @@ namespace Online_Store_Management.Services
 
             };
 
-            var delivery = await OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
+            var delivery = OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
             object objOrder = orderInfo;
             orders.Add(objOrder);
             OrderInfo order = (OrderInfo)objOrder;
