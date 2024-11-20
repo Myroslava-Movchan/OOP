@@ -12,22 +12,6 @@ namespace Online_Store_Management.Services
         {
             "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
         };
-        private static readonly string[] LastNamesRegular = new[]
-        {
-            "Garcia", "Lee", "Patel", "Johnson", "Wilson", "Kim"
-        };
-        private static readonly string[] Products = new[]
-        {
-            "T-Shirt", "Jeans",
-            "Sweater", "Jacket",
-            "Dress", "Skirt",
-            "Shorts", "Blouse",
-            "Suit", "Coat",
-            "Hoodie", "Pajamas",
-            "Belt", "Scarf",
-            "Hat", "Socks",
-            "Boots", "Sneakers"
-        };
         private static readonly int[] PostIndexes = new[]
         {
             03115, 22567, 89088, 12345, 54321, 65678
