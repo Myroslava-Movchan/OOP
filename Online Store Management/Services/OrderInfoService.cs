@@ -8,6 +8,7 @@ namespace Online_Store_Management.Services
     {
         private readonly ArrayList orders = new ArrayList(100);
         private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
+        public Func<OrderInfo, decimal>? CalculateTotal { get; set; }
         private static readonly string[] Gifts =
         [
             "Pin", "Sticker",
@@ -70,5 +71,9 @@ namespace Online_Store_Management.Services
             return delieverySum;
         }
 
+        public decimal GetTotal(OrderInfo order)
+        {
+            return CalculateTotal(order);
+        }
     }
 }

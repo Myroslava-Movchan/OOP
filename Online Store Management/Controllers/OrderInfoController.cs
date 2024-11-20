@@ -32,5 +32,11 @@ namespace Online_Store_Management.Controllers
             return answer;
         }
 
+        [HttpPost("Get total sum")]
+        public decimal CalculateTotal(OrderInfo order)
+        {
+            return orderInfoService.GetTotal(order);
+        }
+
     }
 }
