@@ -22,26 +22,11 @@ namespace Online_Store_Management.Services
         {
             this.logger = logger;
         }
-
         public async Task<Product> GetProductAsync(CancellationToken cancellationToken)
-        {
-            await Task.Delay(150, cancellationToken);  //delays this process in order not to block other running processes
-            var productName = Products[Random.Shared.Next(Products.Length)];
-            var product = new Product()
-            {
-                ProductId = Random.Shared.Next(1, 18),
-                ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230),
-                ProductQuantity = Random.Shared.Next(1, 10)
-            };
-
-            return product;
-        }
-        public async Task<ProductStruct> GetProductStructAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
-            var productStruct = new ProductStruct(
+            var productStruct = new Product(
                 productId: Random.Shared.Next(1, 18),
                 productName: productName,
                 productPrice: Random.Shared.Next(8, 230),

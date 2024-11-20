@@ -23,10 +23,7 @@ namespace Online_Store_Management.Services
             {
                 OrderNumber = Random.Shared.Next(1, 250),
                 Gift = gifts,
-                ProductName = product.ProductName,
-                ProductId = product.ProductId,
-                ProductPrice = product.ProductPrice,
-                ProductQuantity = product.ProductQuantity
+                Product = product
 
             };
 

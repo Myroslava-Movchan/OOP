@@ -6,12 +6,7 @@
 
         public override decimal GetDiscount()
         {
-
-            Product product = GetProduct();
-
-            decimal fullPrice = product.ProductPrice;
-            decimal discounted = fullPrice - (fullPrice * newDiscount);
-            return discounted;
+            return newDiscount;
         }
         public new void Recommendation()
         {

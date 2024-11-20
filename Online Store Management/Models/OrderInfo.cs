@@ -1,18 +1,16 @@
 ﻿
 namespace Online_Store_Management.Models
 {
-    public class OrderInfo : Product
+    public class OrderInfo
     {
         public int OrderNumber { get; set; }
 
         public string? Gift { get; set; }
+        public Product Product { get; set; }
 
         public void ProductInfo(Product product)
         {
-            this.ProductName = product.ProductName;
-            this.ProductPrice = product.ProductPrice;
-            this.ProductId = product.ProductId;
-            this.ProductQuantity = product.ProductQuantity;
+            this.Product = product;
         }
 
         public override bool Equals(object? obj)
