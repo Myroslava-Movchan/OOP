@@ -28,22 +28,4 @@ namespace Online_Store_Management.Models
             Console.WriteLine("Turn on your notifications to receive information about new products!");
         }
     }
-    public class Discount
-    {
-        public Customer? Customer { get; set; }
-        public decimal DiscountedPrice { get; set; }
-        public const decimal minPrice = 10m;
-        public bool IsPriceOk(decimal discounted)
-        {
-            if (discounted >= minPrice)
-            {
-                return true;
-            }
-            return false;
-        }
-        public static decimal GetMinPrice()
-        {
-            return minPrice;
-        }
-    }
 }

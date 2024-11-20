@@ -18,6 +18,8 @@ builder.Services.AddScoped<IProduct, ProductService>();
 builder.Services.AddScoped<IOrderInfo, OrderInfoService>();
 builder.Services.AddScoped<IRepository<CustomerDbModel>, CustomerRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<INewCustomer, NewCustomerService>();
+builder.Services.AddScoped<IRegularCustomer, RegularCustomerService>();
 
 builder.Services.AddDbContext<CustomerDBContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));

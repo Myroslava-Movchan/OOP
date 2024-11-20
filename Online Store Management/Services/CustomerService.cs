@@ -46,61 +46,7 @@ namespace Online_Store_Management.Services
         {
             this._transactionLogFileStream = customerLogFileStream;
         }
-        public async Task<Discount> GetNewCustomerAsync(CancellationToken cancellationToken)
-        {
-            await Task.Delay(50, cancellationToken);
-            var productName = Products[Random.Shared.Next(Products.Length)];
-            var lastName = LastNamesNew[Random.Shared.Next(LastNamesNew.Length)];
-            var customer = new NewCustomer()
-            {
-                LastName = lastName,
-                Id = Random.Shared.Next(1, 6),
-                PostIndex = PostIndexes[Random.Shared.Next(PostIndexes.Length)]
-            };
-            var product = new Product()
-            {
-                ProductId = Random.Shared.Next(1, 18),
-                ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230)
-            };
-            customer.SetProduct(product);
-            var discountedPrice = customer.GetDiscount();
 
-            return new Discount
-            {
-                Customer = customer,
-                DiscountedPrice = discountedPrice
-            };
-        }
-
-        public async Task<Discount> GetRegularCustomerAsync(CancellationToken cancellationToken)
-        {
-            await Task.Delay(50, cancellationToken);
-            var productName = Products[Random.Shared.Next(Products.Length)];
-            var lastName = LastNamesRegular[Random.Shared.Next(LastNamesRegular.Length)];
-            var postIndex = PostIndexes[Random.Shared.Next(PostIndexes.Length)];
-            var customer = new RegularCustomer()
-            {
-                LastName = lastName,
-                Id = Random.Shared.Next(7, 12),
-                PostIndex = postIndex
-            };
-            var product = new Product()
-            {
-                ProductId = Random.Shared.Next(1, 18),
-                ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230)
-            };
-            customer.SetProduct(product);
-            RegularCustomer.RegularCustomerDiscount getDiscount = customer.GetDiscount;
-
-            return new Discount
-            {
-                Customer = customer,
-                DiscountedPrice = customer.ExecuteDiscount(getDiscount)
-            };
-
-        }
         public CustomerService(IRepository<CustomerDbModel> customerRepository)
         {
             this.customerRepository = customerRepository
