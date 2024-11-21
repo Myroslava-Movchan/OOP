@@ -2,7 +2,6 @@
 using System.Collections;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Extensions;
-using Online_Store_Management.DataAccess;
 namespace Online_Store_Management.Services
 {
     public class OrderInfoService : IOrderInfo
@@ -105,6 +104,11 @@ namespace Online_Store_Management.Services
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
             await orderRepository.DeleteAsync(id, cancellationToken);
+        }
+
+        public async Task<IEnumerable<OrderInfo>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await orderRepository.GetAllAsync(cancellationToken);
         }
     }
 }

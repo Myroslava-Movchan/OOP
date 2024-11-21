@@ -1,5 +1,6 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
+using System.Threading;
 namespace Online_Store_Management.Services
 {
     public class ProductService : IProduct
@@ -17,6 +18,27 @@ namespace Online_Store_Management.Services
             "Hat", "Socks",
             "Boots", "Sneakers"
         };
+        private static readonly Dictionary<string, string> Categories = new()
+        {
+            { "T-Shirt", "Shirts" },
+            { "Blouse", "Shirts" },
+            { "Jeans", "Pants" },
+            { "Sweater", "Shirts" },
+            { "Jacket", "Outerwear" },
+            { "Dress", "Full body" },
+            { "Skirt", "Full body" },
+            { "Shorts", "Pants" },
+            { "Suit", "Full body" },
+            { "Coat", "Outerwear" },
+            { "Hoodie", "Shirts" },
+            { "Pajamas", "Full body" },
+            { "Belt", "Accessories" },
+            { "Scarf", "Accessories" },
+            { "Hat", "Accessories" },
+            { "Socks", "Accessories" },
+            { "Boots", "Shoes" },
+            { "Sneakers", "Shoes" }
+        };
         public ProductService(IRepository<Product> productRepository)
         {
             this.productRepository = productRepository
@@ -26,11 +48,16 @@ namespace Online_Store_Management.Services
         {
             await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
+            var category = Categories[productName];
+            bool available = Random.Shared.Next(2) == 0;
             var product = new Product(
                 productId: Random.Shared.Next(1, 18),
                 productName: productName,
                 productPrice: Random.Shared.Next(8, 230),
-                productQuantity: Random.Shared.Next(1, 10)
+                category: category,
+                available: available,
+                rating: Random.Shared.Next(0, 5)
+
             );
 
             return product;
@@ -58,6 +85,62 @@ namespace Online_Store_Management.Services
         public IEnumerable<string> GetListOfProducts()
         {
             return Products.Where(p => p.Length > 4).ToList();
+        }
+
+        public async Task<List<Product>> SearchProductCategory(string category, CancellationToken cancellationToken)
+        {
+            var allProducts = await productRepository.GetAllAsync(cancellationToken);
+            var filteredProducts = new List<Product>();
+            foreach (var product in allProducts)
+            {
+                if (category == product.Category)
+                {
+                    filteredProducts.Add(product);
+                }
+            }
+            return filteredProducts;
+        }
+
+        public async Task<List<Product>> SearchProductAvailability(CancellationToken cancellationToken)
+        {
+            var allProducts = await productRepository.GetAllAsync(cancellationToken);
+            var filteredProducts = new List<Product>();
+            foreach (var product in allProducts)
+            {
+                if (product.Availability == true)
+                {
+                    filteredProducts.Add(product);
+                }
+            }
+            return filteredProducts;
+        }
+
+        public async Task<List<Product>> SearchProductPriceRange(int min, int max, CancellationToken cancellationToken)
+        {
+            var allProducts = await productRepository.GetAllAsync(cancellationToken);
+            var filteredProducts = new List<Product>();
+            foreach (var product in allProducts)
+            {
+                if (product.ProductPrice <= max && product.ProductPrice >= min)
+                {
+                    filteredProducts.Add(product);
+                }
+            }
+            return filteredProducts;
+        }
+
+        public async Task<List<Product>> GetBestProductsRating(CancellationToken cancellationToken)
+        {
+            var allProducts = await productRepository.GetAllAsync(cancellationToken);
+            var filteredProducts = new List<Product>();
+            foreach (var product in allProducts)
+            {
+                if (product.Rating >= 4)
+                {
+                    filteredProducts.Add(product);
+                }
+            }
+            return filteredProducts;
         }
     }
 }

@@ -13,5 +13,6 @@ namespace Online_Store_Management.Interfaces
         Task AddOrderAsync(OrderInfo order, CancellationToken cancellationToken);
         Task UpdateAsync(OrderInfo order, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<OrderInfo>> GetAllAsync(CancellationToken cancellationToken);
     }
 }
