@@ -87,10 +87,9 @@ namespace Online_Store_Management.Services
             var order = await orderRepository.GetByIdAsync(orderNumber, cancellationToken);
             if (order != null && order.Product == null)
             {
-                
                 order.Product = new Product();
             }
-            return  order;
+            return order;
         }
 
         public async Task AddOrderAsync(OrderInfo order, CancellationToken cancellationToken)

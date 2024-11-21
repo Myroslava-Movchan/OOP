@@ -6,6 +6,9 @@
         public string? ProductName { get; set; }
         public decimal ProductPrice { get; set; }
         public int? ProductQuantity { get; set; }
+        /*public string? Category { get; set; }
+        public bool Availability { get; set; }
+        public int Rating { get; set; }*/
 
         public Product() { }
 

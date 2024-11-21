@@ -7,6 +7,7 @@ namespace Online_Store_Management.Models
         public int OrderNumber { get; set; }
 
         public string? Gift { get; set; }
+        public int ProductId { get; set; }
         public required Product Product { get; set; }
         public string? Status { get; set; }
 

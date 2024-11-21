@@ -16,6 +16,10 @@ namespace Online_Store_Management.DataAccess
             modelBuilder.Entity<OrderInfo>(entity =>
             {
                 entity.Property(e => e.OrderNumber);
+
+                entity.HasOne(o => o.Product)
+                      .WithMany()
+                      .HasForeignKey(o => o.ProductId);
             });
         }
     }

@@ -61,13 +61,7 @@ namespace Online_Store_Management.Controllers
             return Ok(new
             {
                 order.Status,
-                Product = new
-                {
-                    order.Product.ProductId,
-                    order.Product.ProductName,
-                    order.Product.ProductPrice,
-                    order.Product.ProductQuantity
-                }
+                order.Product
             });
         }
 

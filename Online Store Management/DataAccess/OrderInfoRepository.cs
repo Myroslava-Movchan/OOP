@@ -20,7 +20,9 @@ namespace Online_Store_Management.DataAccess
         }
         public async Task<OrderInfo?> GetByIdAsync(int orderNumber, CancellationToken cancellationToken)
         {
-            return await _context.Orders.FindAsync(orderNumber, cancellationToken);
+            return await _context.Orders
+                .Include(o => o.Product) 
+                .FirstOrDefaultAsync(o => o.OrderNumber == orderNumber, cancellationToken);
         }
         public async Task<IEnumerable<OrderInfo>> GetAllAsync(CancellationToken cancellationToken)
         {
