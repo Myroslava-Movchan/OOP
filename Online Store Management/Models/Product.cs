@@ -1,13 +1,15 @@
 ﻿namespace Online_Store_Management.Models
 {
-    public struct Product
+    public class Product
     {
         public int ProductId { get; set; }
         public string? ProductName { get; set; }
         public decimal ProductPrice { get; set; }
         public int? ProductQuantity { get; set; }
 
-        public Product(int productId, string? productName, decimal productPrice, int? productQuantity)
+        public Product() { }
+
+        public Product(int productId, string productName, int productPrice, int productQuantity)
         {
             ProductId = productId;
             ProductName = productName;

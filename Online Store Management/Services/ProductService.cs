@@ -1,10 +1,10 @@
 ﻿using Online_Store_Management.Models;
-using Online_Store_Management.Infrastructure;
 using Online_Store_Management.Interfaces;
 namespace Online_Store_Management.Services
 {
     public class ProductService : IProduct
     {
+        private readonly IRepository<Product> productRepository;
         private static readonly string[] Products = new[]
         {
             "T-Shirt", "Jeans",
@@ -17,23 +17,42 @@ namespace Online_Store_Management.Services
             "Hat", "Socks",
             "Boots", "Sneakers"
         };
-        private readonly Logger logger;
-        public ProductService(Logger logger)
+        public ProductService(IRepository<Product> productRepository)
         {
-            this.logger = logger;
+            this.productRepository = productRepository
+            ?? throw new ArgumentNullException(nameof(productRepository));
         }
         public async Task<Product> GetProductAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
             var productName = Products[Random.Shared.Next(Products.Length)];
-            var productStruct = new Product(
+            var product = new Product(
                 productId: Random.Shared.Next(1, 18),
                 productName: productName,
                 productPrice: Random.Shared.Next(8, 230),
                 productQuantity: Random.Shared.Next(1, 10)
             );
 
-            return productStruct;
+            return product;
+        }
+
+        public async Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await productRepository.GetByIdAsync(id, cancellationToken);
+        }
+
+        public async Task AddProductAsync(Product product, CancellationToken cancellationToken)
+        {
+            await productRepository.AddAsync(product, cancellationToken);
+        }
+        public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
+        {
+            await productRepository.UpdateAsync(product, cancellationToken);
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await productRepository.DeleteAsync(id, cancellationToken);
         }
 
         public IEnumerable<string> GetListOfProducts()

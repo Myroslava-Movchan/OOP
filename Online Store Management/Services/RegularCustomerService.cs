@@ -30,13 +30,7 @@ namespace Online_Store_Management.Services
                 Id = Random.Shared.Next(7, 12),
                 PostIndex = postIndex
             };
-            var product = new Product
-            {
-                ProductId = Random.Shared.Next(1, 18),
-                ProductName = productName,
-                ProductPrice = Random.Shared.Next(8, 230)
-            };
-            customer.SetProduct(product);
+            
             RegularCustomer.RegularCustomerDiscount getDiscount = customer.GetDiscount;
 
             return customer;

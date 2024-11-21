@@ -10,7 +10,6 @@
         {
             return discount();
         }
-
         public override decimal GetDiscount()
         {
             return regularDiscount;

@@ -4,6 +4,7 @@ using Online_Store_Management.Services;
 using Catalogue;
 using Online_Store_Management.DataAccess; 
 using Microsoft.EntityFrameworkCore;
+using Online_Store_Management.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +18,21 @@ builder.Services.AddScoped<ICustomer, CustomerService>();
 builder.Services.AddScoped<IProduct, ProductService>();
 builder.Services.AddScoped<IOrderInfo, OrderInfoService>();
 builder.Services.AddScoped<IRepository<CustomerDbModel>, CustomerRepository>();
+builder.Services.AddScoped<IRepository<OrderInfo>, OrderInfoRepository>();
+builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<INewCustomer, NewCustomerService>();
 builder.Services.AddScoped<IRegularCustomer, RegularCustomerService>();
 
 builder.Services.AddDbContext<CustomerDBContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<OrderInfoDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("OrderConnection")));
+
+builder.Services.AddDbContext<ProductDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("ProductConnection")));
 
 builder.Services.AddHttpClient();
 

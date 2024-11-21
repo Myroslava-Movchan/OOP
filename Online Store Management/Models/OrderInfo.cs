@@ -1,12 +1,14 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 namespace Online_Store_Management.Models
 {
     public class OrderInfo
     {
+        [Key]
         public int OrderNumber { get; set; }
 
         public string? Gift { get; set; }
-        public Product Product { get; set; }
+        public required Product Product { get; set; }
+        public string? Status { get; set; }
 
         public void ProductInfo(Product product)
         {
