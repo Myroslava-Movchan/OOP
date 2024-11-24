@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Interfaces;
-using Online_Store_Management.Models;
 using Online_Store_Management.DataAccess;
 
 namespace Online_Store_Management.Controllers
@@ -12,33 +11,10 @@ namespace Online_Store_Management.Controllers
     {
         private readonly ICustomer customerService;
         private readonly INotificationService notificationService;
-        private readonly Func<CancellationToken, Task<Discount>> getNewCustomerFunc;
         public CustomerController(ICustomer customerService, INotificationService notificationService)
         {
             this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
             this.notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
-            this.getNewCustomerFunc = customerService.GetNewCustomerAsync;
-        }
-
-        [HttpGet("new")]
-        public async Task<Discount> CreateNewCustomerAsync(CancellationToken cancellationToken)
-        {
-            var filepath = Path.Combine(Directory.GetCurrentDirectory(), $"{DateTime.UtcNow.Ticks}_transcations.log");
-
-            var newCustomer = await getNewCustomerFunc(cancellationToken);
-            using (var transactionLogFileStream = new FileStream("transaction.log", FileMode.Append))
-            {
-                byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow.Ticks}, {newCustomer}");
-                await transactionLogFileStream.WriteAsync(messageBytes, 0, messageBytes.Length, cancellationToken);
-            }
-            return newCustomer;
-        }
-
-        [HttpGet("regular")]
-        public async Task<Discount> CreateRegularCustomerAsync(CancellationToken cancellationToken)
-        {
-            var regularCustomer = customerService.GetRegularCustomerAsync(cancellationToken);
-            return await regularCustomer;
         }
 
         [HttpPost("Add new customer")]

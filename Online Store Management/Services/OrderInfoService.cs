@@ -8,6 +8,8 @@ namespace Online_Store_Management.Services
     {
         private readonly ArrayList orders = new ArrayList(100);
         private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
+        private readonly IRepository<OrderInfo> orderRepository;
+        public Func<OrderInfo, decimal>? CalculateTotal { get; set; }
         private static readonly string[] Gifts =
         [
             "Pin", "Sticker",
@@ -15,6 +17,10 @@ namespace Online_Store_Management.Services
             "Hairclip", "Socks"
         ];
 
+        public OrderInfoService(IRepository<OrderInfo> orderRepository)
+        {
+            this.orderRepository = orderRepository;
+        }
         public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
@@ -23,11 +29,8 @@ namespace Online_Store_Management.Services
             {
                 OrderNumber = Random.Shared.Next(1, 250),
                 Gift = gifts,
-                ProductName = product.ProductName,
-                ProductId = product.ProductId,
-                ProductPrice = product.ProductPrice,
-                ProductQuantity = product.ProductQuantity
-
+                Product = product,
+                Status = "Processing"
             };
 
             var delivery = OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
@@ -73,5 +76,39 @@ namespace Online_Store_Management.Services
             return delieverySum;
         }
 
+        public decimal GetTotal(OrderInfo order)
+        {
+            return CalculateTotal(order);
+        }
+
+        public async Task<OrderInfo?> GetOrderByIdAsync(int orderNumber, CancellationToken cancellationToken)
+        {
+            var order = await orderRepository.GetByIdAsync(orderNumber, cancellationToken);
+            if (order != null && order.Product == null)
+            {
+                order.Product = new Product();
+            }
+            return order;
+        }
+
+        public async Task AddOrderAsync(OrderInfo order, CancellationToken cancellationToken)
+        {
+            await orderRepository.AddAsync(order, cancellationToken);
+        }
+
+        public async Task UpdateAsync(OrderInfo order, CancellationToken cancellationToken)
+        {
+            await orderRepository.UpdateAsync(order, cancellationToken);
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            await orderRepository.DeleteAsync(id, cancellationToken);
+        }
+
+        public async Task<IEnumerable<OrderInfo>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            return await orderRepository.GetAllAsync(cancellationToken);
+        }
     }
 }

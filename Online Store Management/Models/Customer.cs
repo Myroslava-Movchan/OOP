@@ -17,7 +17,6 @@ namespace Online_Store_Management.Models
 
         public void SetProduct(Product value)
         { _product = value; }
-
         public abstract decimal GetDiscount();
         public virtual void Help(string issue)
         {
@@ -26,24 +25,6 @@ namespace Online_Store_Management.Models
         public void Recommendation()
         {
             Console.WriteLine("Turn on your notifications to receive information about new products!");
-        }
-    }
-    public class Discount
-    {
-        public Customer? Customer { get; set; }
-        public decimal DiscountedPrice { get; set; }
-        public const decimal minPrice = 10m;
-        public bool IsPriceOk(decimal discounted)
-        {
-            if (discounted >= minPrice)
-            {
-                return true;
-            }
-            return false;
-        }
-        public static decimal GetMinPrice()
-        {
-            return minPrice;
         }
     }
 }

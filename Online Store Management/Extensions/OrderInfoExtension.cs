@@ -7,7 +7,7 @@ namespace Online_Store_Management.Extensions
         public static  int EstimateDeliveryAsync(this Product product, CancellationToken cancellationToken)
         {
             int delieverySum = 100;
-            if (product.ProductQuantity >= 6)
+            if (product.ProductPrice >= 200)
             {
                 delieverySum = 80;
             }
