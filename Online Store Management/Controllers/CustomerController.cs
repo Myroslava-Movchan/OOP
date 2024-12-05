@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Online_Store_Management.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
 
