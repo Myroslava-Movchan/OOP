@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Online_Store_Management</RootNamespace>
 	
+    <UserSecretsId>82f845be-7246-4c6d-9ab7-6595c56fe293</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

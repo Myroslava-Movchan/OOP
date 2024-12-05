@@ -57,6 +57,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+var customerApiKey = builder.Configuration["CUSTOMER_KEY"];
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,7 +73,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])) 
     };
 });
 
@@ -91,6 +92,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<CatalogueClient>();
 builder.Services.AddScoped<Logger>();
+builder.Configuration.AddUserSecrets<Program>();
 
 var app = builder.Build();
 
