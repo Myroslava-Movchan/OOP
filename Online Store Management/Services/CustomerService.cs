@@ -55,6 +55,10 @@ namespace Online_Store_Management.Services
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
         {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid ID provided.");
+            }
             await customerRepository.DeleteAsync(id, cancellationToken);
         }
 

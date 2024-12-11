@@ -72,6 +72,19 @@ namespace Unit_Tests
         }
 
         [TestMethod]
+        public async Task CompareOrdersAsyncTest_ShouldReturnFalseWhenOrderIsNull()
+        {
+            // Arrange
+            var cancellationToken = CancellationToken.None;
+
+            // Act
+            var result = await orderInfoService.CompareOrdersAsync(null, cancellationToken);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
         public async Task AddToTableAsyncTest_ShouldReturnBoolTrue()
         {
             //Arrange
@@ -112,6 +125,19 @@ namespace Unit_Tests
 
             //Assert
             Assert.IsInstanceOfType<int>(result);
+        }
+
+        [TestMethod]
+        public async Task EstimateDeliveryAsyncTest_ShouldReturnCorrectDeliveryTime()
+        {
+            // Arrange
+            var cancellationToken = CancellationToken.None;
+
+            // Act
+            var result = await orderInfoService.EstimateDeliveryAsync(cancellationToken);
+
+            // Assert
+            Assert.AreEqual(120, result); 
         }
 
         [TestMethod]
@@ -182,6 +208,22 @@ namespace Unit_Tests
             //Assert
             Assert.IsNotNull(order);
             Assert.AreEqual(expectedOrder.OrderNumber, order.OrderNumber);
+        }
+
+        [TestMethod]
+        public async Task GetOrderByIdAsyncTest_ShouldReturnNullIfOrderNotFound()
+        {
+            // Arrange
+            var cancellationToken = CancellationToken.None;
+            orderInfoRepositoryMock
+                .Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((OrderInfo)null); 
+
+            // Act
+            var result = await orderInfoService.GetOrderByIdAsync(99, cancellationToken);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]

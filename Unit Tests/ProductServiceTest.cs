@@ -277,7 +277,7 @@ namespace Unit_Tests
             var result = await productService.SearchProductPriceRange(min, max, cancellationToken);
 
             //Assert
-            Assert.IsTrue(result[0].ProductPrice <= 50 && result[1].ProductPrice >= 15);
+            Assert.IsTrue(result[0].ProductPrice <= 50 && result[0].ProductPrice >= 15);
             Assert.IsInstanceOfType(result, typeof(List<Product>));
         }
 

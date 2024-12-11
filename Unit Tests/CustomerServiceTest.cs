@@ -113,5 +113,28 @@ namespace Unit_Tests
             //Assert
             customerRepositoryMock.Verify(r => r.DeleteAsync(id, cancellationToken), Times.Once);
         }
+
+        [TestMethod]
+        public async Task DeleteAsyncTest_ShouldThrowExceptionInvalidId()
+        {
+            //Arrange
+            var id = -2;
+            var cancellationToken = CancellationToken.None;
+            customerRepositoryMock
+                .Setup(r => r.UpdateAsync(It.IsAny<CustomerDbModel>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            try
+            {
+                await service.DeleteAsync(id, cancellationToken); 
+                Assert.Fail("Expected exception not thrown."); 
+            }
+            catch (ArgumentException ex)
+            {
+                // Assert
+                Assert.AreEqual("Invalid ID provided.", ex.Message); 
+            }
+        }
     }
 }
