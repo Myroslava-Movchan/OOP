@@ -24,7 +24,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
 
             //Act
-            var result = service.GetRegularCustomerAsync(cancellationToken);
+            var result = await service.GetRegularCustomerAsync(cancellationToken);
 
             //Assert
             Assert.IsNotNull(result);
