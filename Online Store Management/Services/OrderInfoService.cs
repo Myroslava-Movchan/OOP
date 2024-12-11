@@ -61,7 +61,7 @@ namespace Online_Store_Management.Services
             var orderHashCode = order.GetHashCode();
             foreach (var existingOrder in orders)
             {
-                if (existingOrder.GetHashCode() == orderHashCode)
+                if (existingOrder.Equals(order))
                 {
                     return false;
                 }

@@ -18,13 +18,13 @@ namespace Online_Store_Management.Models
 
         public override bool Equals(object? obj)
         {
-            return obj is OrderInfo info &&
-                   OrderNumber == info.OrderNumber;
+            if (obj is not OrderInfo other) return false;
+            return OrderNumber == other.OrderNumber;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(OrderNumber);
+            return OrderNumber.GetHashCode();
         }
     }
 
