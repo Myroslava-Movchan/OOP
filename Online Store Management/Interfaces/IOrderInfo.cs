@@ -4,7 +4,7 @@ namespace Online_Store_Management.Interfaces
 {
     public interface IOrderInfo
     {
-        Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken);
+        Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time);
         Task<bool> CompareOrdersAsync(OrderInfo order, CancellationToken cancellationToken);
         Task<bool> AddToTableAsync(OrderInfo order, CancellationToken cancellationToken);
         Task<int> EstimateDeliveryAsync(CancellationToken cancellationToken);
@@ -14,5 +14,6 @@ namespace Online_Store_Management.Interfaces
         Task UpdateAsync(OrderInfo order, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
         Task<IEnumerable<OrderInfo>> GetAllAsync(CancellationToken cancellationToken);
+        DateTime GetTimeTokyo();
     }
 }

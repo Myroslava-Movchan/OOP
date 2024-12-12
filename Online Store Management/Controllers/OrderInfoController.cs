@@ -18,10 +18,16 @@ namespace Online_Store_Management.Controllers
             this.orderInfoService = orderInfoService;
         }
 
-        [HttpPost("Get information for order placement")]
-        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
+        [HttpPost("Get current time in Tokyo")]
+        public DateTime GetTime()
         {
-            var orderInfo = await orderInfoService.PostAsync(product, cancellationToken);
+            return orderInfoService.GetTimeTokyo();
+        }
+
+        [HttpPost("Get information for order placement")]
+        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time)
+        {
+            var orderInfo = await orderInfoService.PostAsync(product, cancellationToken, time);
             var addToTable = orderInfoService.AddToTableAsync(orderInfo, cancellationToken);
             return orderInfo;
         }
@@ -61,10 +67,14 @@ namespace Online_Store_Management.Controllers
                 return NotFound();
             }
 
+            var frenchTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            var frenchTime = TimeZoneInfo.ConvertTime(order.OrderDate, TimeZoneInfo.Utc, frenchTimeZone);
+
             return Ok(new
             {
                 order.Status,
-                order.Product
+                order.Product,
+                DateTime = order.OrderDate = frenchTime
             });
         }
 

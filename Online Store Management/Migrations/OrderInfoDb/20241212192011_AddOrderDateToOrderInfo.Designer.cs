@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Online_Store_Management.DataAccess;
 
@@ -10,9 +11,11 @@ using Online_Store_Management.DataAccess;
 namespace Online_Store_Management.Migrations.OrderInfoDb
 {
     [DbContext(typeof(OrderInfoDbContext))]
-    partial class OrderInfoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241212192011_AddOrderDateToOrderInfo")]
+    partial class AddOrderDateToOrderInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");

@@ -17,13 +17,24 @@ namespace Online_Store_Management.Services
             "Candy", "Bracelet",
             "Hairclip", "Socks"
         ];
+        public DateTime ConvertJapaneseToUtc(DateTime japaneseTime)
+        {
+            var japaneseTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            return TimeZoneInfo.ConvertTimeToUtc(japaneseTime, japaneseTimeZone);
+        }
+
+        public DateTime GetTimeTokyo()
+        {
+            var time = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, time);
+        }
 
         public OrderInfoService(IRepository<OrderInfo> orderRepository)
         {
             this.orderRepository = orderRepository;
         }
 
-        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
+        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time)
         {
             await Task.Delay(50, cancellationToken);
             var gifts = Gifts[Random.Shared.Next(Gifts.Length)];
@@ -32,7 +43,8 @@ namespace Online_Store_Management.Services
                 OrderNumber = Random.Shared.Next(1, 250),
                 Gift = gifts,
                 Product = product,
-                Status = "Processing"
+                Status = "Processing",
+                OrderDate = ConvertJapaneseToUtc(time)
             };
 
             var delivery = OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
