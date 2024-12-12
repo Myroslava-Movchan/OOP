@@ -55,9 +55,20 @@ namespace Online_Store_Management.Controllers
         public async Task<ActionResult<OrderInfo>> GetByOrderNumberAsync(int orderNumber, CancellationToken cancellationToken)
         {
             var order = await orderInfoService.GetOrderByIdAsync(orderNumber, cancellationToken);
+
             if (order == null)
             {
                 return NotFound();
+            }
+
+            try
+            {
+                string decryptedStatus = orderInfoService.DecryptMessage(order.Status);
+                order.Status = decryptedStatus;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error decrypting status: " + ex.Message });
             }
 
             return Ok(new
@@ -66,6 +77,7 @@ namespace Online_Store_Management.Controllers
                 order.Product
             });
         }
+
 
         [HttpPut("Update order status")]
         public async Task UpdateAsync(OrderInfo order, CancellationToken cancellationToken)

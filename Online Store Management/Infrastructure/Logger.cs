@@ -23,7 +23,7 @@ namespace Online_Store_Management.Infrastructure
             _logger.LogWarning("Warning: {Message}", message);
         }
 
-        public static Task LogToConsole(Customer customer, CancellationToken cancellationToken)
+        public static Task LogToConsole(OrderInfo order, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

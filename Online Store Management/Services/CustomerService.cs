@@ -17,20 +17,6 @@ namespace Online_Store_Management.Services
             03115, 22567, 89088, 12345, 54321, 65678
         };
 
-        private FileStream _transactionLogFileStream;
-
-        public async Task LogActionAsync(Customer customer, string message, CancellationToken cancellationToken)
-        {
-            byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes($"{DateTime.UtcNow}: {message}\n");
-            _transactionLogFileStream.Write(messageBytes, 0, messageBytes.Length);
-            await Infrastructure.Logger.LogToConsole(customer, cancellationToken);
-        }
-
-        public void SetCustomerLogFileStream(FileStream customerLogFileStream)
-        {
-            this._transactionLogFileStream = customerLogFileStream;
-        }
-
         public CustomerService(IRepository<CustomerDbModel> customerRepository)
         {
             this.customerRepository = customerRepository
