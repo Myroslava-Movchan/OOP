@@ -13,6 +13,8 @@ namespace Online_Store_Management.Services
         private readonly IRepository<OrderInfo> orderRepository;
         private readonly IConfiguration _configuration;
         private FileStream _transactionLogFileStream;
+        private IRepository<OrderInfo> @object;
+
         public Func<OrderInfo, decimal>? CalculateTotal { get; set; }
         private static readonly string[] Gifts =
         [
@@ -26,6 +28,12 @@ namespace Online_Store_Management.Services
             this.orderRepository = orderRepository;
             this._configuration = configuration;
         }
+
+        public OrderInfoService(IRepository<OrderInfo> @object)
+        {
+            this.@object = @object;
+        }
+
         public static RSA ImportPublicKey(string publicKeyPem)
         {
             string keyBase64 = publicKeyPem

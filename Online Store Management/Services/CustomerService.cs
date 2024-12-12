@@ -30,6 +30,11 @@ namespace Online_Store_Management.Services
 
         public async Task AddCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
+            if (customer.Id < 1 || string.IsNullOrWhiteSpace(customer.LastName) || customer.PostIndex < 1)
+            {
+                throw new ArgumentException("Invalid customer data.");
+            }
+
             await customerRepository.AddAsync(customer, cancellationToken);
         }
 

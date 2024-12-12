@@ -104,7 +104,7 @@ namespace Unit_Tests
             var id = 1;
             var cancellationToken = CancellationToken.None;
             customerRepositoryMock
-                .Setup(r => r.UpdateAsync(It.IsAny<CustomerDbModel>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
             //Act
@@ -135,6 +135,100 @@ namespace Unit_Tests
                 // Assert
                 Assert.AreEqual("Invalid ID provided.", ex.Message); 
             }
+        }
+
+        [TestMethod]
+        public void GetLastNamesStartingWithSTest_ShouldReturnNamesStartingWithS()
+        {
+            // Arrange
+            var expectedLastNames = new[] { "Snow", "Smith" };
+
+            // Act
+            var lastNames = service.GetLastNamesStartingWithS();
+
+            // Assert
+            CollectionAssert.AreEqual(expectedLastNames, lastNames.ToList());
+        }
+
+        [TestMethod]
+        public void GetIndexesDescTest_ShouldReturnIndexesInDescendingOrder()
+        {
+            // Arrange
+            var expectedIndexes = new[] { 89088, 65678, 54321, 22567, 12345, 3115 };
+
+            // Act
+            var indexes = service.GetIndexesDesc();
+
+            // Assert
+            CollectionAssert.AreEqual(expectedIndexes, indexes.ToList());
+        }
+
+        [TestMethod]
+        public async Task AddCustomerAsyncTest_ShouldNotAddCustomerIfInvalidData()
+        {
+            // Arrange
+            var invalidCustomer = new CustomerDbModel
+            {
+                Id = 0,
+                LastName = "",
+                PostIndex = 0
+            };
+            var cancellationToken = CancellationToken.None;
+
+            // Act
+            customerRepositoryMock
+                .Setup(r => r.AddAsync(It.IsAny<CustomerDbModel>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new ArgumentException("Invalid customer data."));
+
+            // Assert
+            var exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() =>
+                service.AddCustomerAsync(invalidCustomer, cancellationToken)
+            );
+            Assert.AreEqual("Invalid customer data.", exception.Message);
+        }
+
+
+        [TestMethod]
+        public async Task UpdateAsyncTest_ShouldNotUpdateIfCustomerNotFound()
+        {
+            // Arrange
+            var nonExistingCustomer = new CustomerDbModel
+            {
+                Id = 9999,
+                LastName = "NonExistent",
+                PostIndex = 99999
+            };
+            var cancellationToken = CancellationToken.None;
+
+            // Act
+            customerRepositoryMock
+                .Setup(r => r.UpdateAsync(It.IsAny<CustomerDbModel>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new InvalidOperationException("Customer not found"));
+
+            // Assert
+            var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+                service.UpdateAsync(nonExistingCustomer, cancellationToken)
+            );
+            Assert.AreEqual("Customer not found", exception.Message);
+        }
+
+        [TestMethod]
+        public async Task DeleteAsyncTest_ShouldNotDeleteIfCustomerNotFound()
+        {
+            // Arrange
+            var nonExistingCustomerId = 9999;
+            var cancellationToken = CancellationToken.None;
+
+            // Act
+            customerRepositoryMock
+            .Setup(r => r.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("Customer not found"));
+
+            //Assert
+            var exception = await Assert.ThrowsExceptionAsync<InvalidOperationException>(() =>
+                service.DeleteAsync(nonExistingCustomerId, cancellationToken)
+            );
+            Assert.AreEqual("Customer not found", exception.Message);
         }
     }
 }
