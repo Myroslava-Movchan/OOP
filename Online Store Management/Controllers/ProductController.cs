@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Online_Store_Management.Infrastructure;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 
@@ -11,9 +12,13 @@ namespace Online_Store_Management.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProduct productService;
-        public ProductController(IProduct productService)
+        private readonly RsaKeys rsaKeyProvider;
+        private readonly IConfiguration configuration;
+        public ProductController(IProduct productService, RsaKeys rsaKeys, IConfiguration configuration)
         {
             this.productService = productService;
+            this.rsaKeyProvider = rsaKeys;
+            this.configuration = configuration;
         }
 
         [HttpGet("Create product")]
@@ -63,6 +68,31 @@ namespace Online_Store_Management.Controllers
         public async Task<List<Product>> GetBestRated(CancellationToken cancellationToken)
         {
             return await productService.GetBestProductsRating(cancellationToken);
+        }
+
+        [HttpGet("Decrypt and Read Products")]
+        public async Task<List<Product>> DecryptAndReadProducts(CancellationToken cancellationToken)
+        {
+            var privateKey = rsaKeyProvider.GetPrivateKey();
+            var encryptedLines = await System.IO.File.ReadAllLinesAsync("EncryptedProducts.log", cancellationToken);
+
+            var products = new List<Product>();
+            foreach (var encryptedLine in encryptedLines)
+            {
+                var decryptedText = RsaEncryption.Decrypt(encryptedLine, privateKey);
+                var parts = decryptedText.Split(',');
+                products.Add(new Product
+                {
+                    ProductId = int.Parse(parts[0]),
+                    ProductName = parts[1],
+                    ProductPrice = decimal.Parse(parts[2]),
+                    Category = parts[3],
+                    Availability = bool.Parse(parts[4]),
+                    Rating = int.Parse(parts[5])
+                });
+            }
+
+            return products;
         }
     }
 }

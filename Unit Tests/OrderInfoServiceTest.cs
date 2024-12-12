@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using Castle.Core.Configuration;
+using Microsoft.Extensions.Configuration;
+using Moq;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.Models;
 using Online_Store_Management.Services;
@@ -9,12 +11,16 @@ namespace Unit_Tests
     public sealed class OrderInfoServiceTest
     {
         private Mock<IRepository<OrderInfo>>? orderInfoRepositoryMock;
+        private Mock<IConfiguration> configuration;
         private OrderInfoService? orderInfoService;
         [TestInitialize]
         public void TestInitialize()
         {
             orderInfoRepositoryMock = new Mock<IRepository<OrderInfo>>();
-            orderInfoService = new OrderInfoService(orderInfoRepositoryMock.Object);
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock.Setup(c => c["Encryption:PublicKey"]).Returns("your-public-key");
+            configurationMock.Setup(c => c["Encryption:PrivateKey"]).Returns("your-private-key");
+            orderInfoService = new OrderInfoService(orderInfoRepositoryMock.Object, configurationMock.Object);
         }
         [TestMethod]
         public async Task PostAsyncTest_ShouldReturnOrderInfoObj()

@@ -79,7 +79,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
-
+builder.Services.AddSingleton<RsaKeys>();
 builder.Services.AddDbContext<CustomerDBContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 

@@ -4,9 +4,6 @@ namespace Online_Store_Management.Interfaces
 {
     public interface IOrderInfo
     {
-        void SetOrderLogFileStream(FileStream orderLogFileStream);
-        string DecryptMessage(string message);
-        Task LogActionAsync(OrderInfo order, string message, CancellationToken cancellationToken);
         Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken);
         Task<bool> CompareOrdersAsync(OrderInfo order, CancellationToken cancellationToken);
         Task<bool> AddToTableAsync(OrderInfo order, CancellationToken cancellationToken);

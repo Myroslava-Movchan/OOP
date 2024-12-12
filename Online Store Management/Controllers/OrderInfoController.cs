@@ -61,16 +61,6 @@ namespace Online_Store_Management.Controllers
                 return NotFound();
             }
 
-            try
-            {
-                string decryptedStatus = orderInfoService.DecryptMessage(order.Status);
-                order.Status = decryptedStatus;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Error decrypting status: " + ex.Message });
-            }
-
             return Ok(new
             {
                 order.Status,
