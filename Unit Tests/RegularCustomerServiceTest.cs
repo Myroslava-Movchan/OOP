@@ -11,16 +11,12 @@ namespace Unit_Tests
     public sealed class RegularCustomerServiceTest
     {
         private RegularCustomerService service;
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            service = new RegularCustomerService();
-        }
 
         [TestMethod]
         public async Task GetRegularCustomerAsyncTest_ShouldReturnRegularCustomer()
         {
             //Arrange
+            service = new RegularCustomerService();
             var cancellationToken = CancellationToken.None;
 
             //Act
