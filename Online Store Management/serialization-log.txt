@@ -1,0 +1,12 @@
+
+Culture: fr-CA
+Serialized DateTime: "2024-12-12T20:50:03.2000839+02:00"
+Serialized int: 1998.5
+
+Culture: de-DE
+Deserialized DateTime: 12.12.2024 20:50:03
+Deserialized int: 1998,5
+
+Final results logged:
+DateTime (es-ES): "2024-12-12T20:50:03.2000839+02:00"
+Int (es-ES): 1998.5

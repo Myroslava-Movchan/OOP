@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +30,6 @@ builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<INewCustomer, NewCustomerService>();
 builder.Services.AddScoped<IRegularCustomer, RegularCustomerService>();
@@ -94,6 +94,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<CatalogueClient>();
 builder.Services.AddScoped<Logger>();
 builder.Configuration.AddUserSecrets<Program>();
+builder.Services.AddScoped<SerializerService>();
 
 var app = builder.Build();
 
