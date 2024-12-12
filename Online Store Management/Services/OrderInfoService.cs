@@ -9,7 +9,6 @@ namespace Online_Store_Management.Services
         private readonly ArrayList orders = new ArrayList(100);
         private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
         private readonly IRepository<OrderInfo> orderRepository;
-        private readonly IConfiguration _configuration;
 
         public Func<OrderInfo, decimal>? CalculateTotal { get; set; }
         private static readonly string[] Gifts =
@@ -19,10 +18,9 @@ namespace Online_Store_Management.Services
             "Hairclip", "Socks"
         ];
 
-        public OrderInfoService(IRepository<OrderInfo> orderRepository, IConfiguration configuration)
+        public OrderInfoService(IRepository<OrderInfo> orderRepository)
         {
             this.orderRepository = orderRepository;
-            this._configuration = configuration;
         }
 
         public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
