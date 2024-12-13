@@ -21,6 +21,7 @@ namespace Unit_Tests
         {
             //Arrange
             var gift = "sticker";
+            var time = DateTime.Now;
             var product = new Product
             {
                 ProductId = 11,
@@ -33,7 +34,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
 
             // Act
-            var result = await orderInfoService.PostAsync(product, cancellationToken);
+            var result = await orderInfoService.PostAsync(product, cancellationToken, time);
 
             //Assert
             Assert.IsNotNull(result);

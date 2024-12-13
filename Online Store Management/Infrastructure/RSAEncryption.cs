@@ -43,7 +43,7 @@ namespace Online_Store_Management.Infrastructure
         {
             using var rsa = RSA.Create();
             rsa.ImportPkcs8PrivateKey(Convert.FromBase64String(privateKey), out _);
-            var decryptedBytes = rsa.Decrypt(Convert.FromBase64String(encryptedText), RSAEncryptionPadding.Pkcs1);
+            var decryptedBytes = rsa.Decrypt(Convert.FromBase64String(encryptedText), RSAEncryptionPadding.OaepSHA256);
             return Encoding.UTF8.GetString(decryptedBytes);
         }
     }
