@@ -5,17 +5,17 @@ namespace Online_Store_Management.Services
     public class NewCustomerService : INewCustomer
     {
 
-        private static readonly string[] LastNamesNew = new[]
-        {
+        private static readonly string[] LastNamesNew =
+        [
             "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
-        };
+        ];
 
-        private static readonly string[] Products = new[]
-        {
+        private static readonly string[] Products = 
+        [
             "T-Shirt", "Jeans", "Sweater", "Jacket", "Dress"
-        };
+        ];
 
-        private static readonly int[] PostIndexes = new[] { 03115, 22567, 89088 };
+        private static readonly int[] PostIndexes = [03115, 22567, 89088];
 
 
         public async Task<NewCustomer> GetNewCustomerAsync(CancellationToken cancellationToken)

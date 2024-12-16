@@ -7,13 +7,9 @@ using System.Text;
 
 namespace Online_Store_Management.Services.Auth
 {
-    public class JwtService : IJwtService
+    public class JwtService(IOptions<JwtOptions> options) : IJwtService
     {
-        private readonly JwtOptions _jwtOptions;
-        public JwtService(IOptions<JwtOptions> options)
-        {
-            _jwtOptions = options.Value;
-        }
+        private readonly JwtOptions _jwtOptions = options.Value;
 
         public string GenerateToken(string username)
         {

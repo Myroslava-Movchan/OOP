@@ -6,7 +6,7 @@ namespace Online_Store_Management.Interfaces
 {
     public interface ICustomer
     {
-        Task<CustomerDbModel> GetCustomerByIdAsync(int id, CancellationToken cancellationToken);
+        Task<CustomerDbModel?> GetCustomerByIdAsync(int id, CancellationToken cancellationToken);
         Task AddCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken);
         Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);

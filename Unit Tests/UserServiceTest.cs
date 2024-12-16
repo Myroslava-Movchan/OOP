@@ -7,18 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Online_Store_Management.Models;
 using Online_Store_Management.Services;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Unit_Tests
 {
     [TestClass]
     public sealed class UserServiceTest
     {
-        private Mock<IUserRepository> userRepositoryMock;
-        private UserService userService;
-
-        [TestInitialize]
-        public void TestInitialize()
+        private readonly Mock<IUserRepository> userRepositoryMock;
+        private readonly UserService userService;
+        public UserServiceTest()
         {
             userRepositoryMock = new Mock<IUserRepository>();
             userService = new UserService(userRepositoryMock.Object);
@@ -58,7 +55,7 @@ namespace Unit_Tests
             };
             userRepositoryMock
                 .Setup(r => r.GetUserByEmail(It.IsAny<string>()))
-                .Returns((User)null);
+                .Returns((User?)null);
 
             //Act
             var result = userService.GetUserByEmail(email1);

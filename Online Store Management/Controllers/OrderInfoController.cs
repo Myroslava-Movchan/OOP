@@ -9,14 +9,9 @@ namespace Online_Store_Management.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class OrderInfoController : ControllerBase
+    public class OrderInfoController(IOrderInfo orderInfoService) : ControllerBase
     {
-        private readonly IOrderInfo orderInfoService;
-
-        public OrderInfoController(IOrderInfo orderInfoService)
-        {
-            this.orderInfoService = orderInfoService;
-        }
+        private readonly IOrderInfo orderInfoService = orderInfoService;
 
         [HttpPost("Get current time in Tokyo")]
         public DateTime GetTime()
@@ -27,7 +22,7 @@ namespace Online_Store_Management.Controllers
         [HttpPost("Get information for order placement")]
         public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time)
         {
-            var orderInfo = await orderInfoService.PostAsync(product, cancellationToken, time);
+            var orderInfo = await orderInfoService.PostAsync(product, time, cancellationToken);
             var addToTable = orderInfoService.AddToTableAsync(orderInfo, cancellationToken);
             return orderInfo;
         }

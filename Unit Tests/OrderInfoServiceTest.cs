@@ -8,14 +8,14 @@ namespace Unit_Tests
     [TestClass]
     public sealed class OrderInfoServiceTest
     {
-        private Mock<IRepository<OrderInfo>> orderInfoRepositoryMock;
-        private OrderInfoService orderInfoService;
-        [TestInitialize]
-        public void TestInitialize()
+        private readonly Mock<IRepository<OrderInfo>> orderInfoRepositoryMock;
+        private readonly OrderInfoService orderInfoService;
+        public OrderInfoServiceTest()
         {
             orderInfoRepositoryMock = new Mock<IRepository<OrderInfo>>();
             orderInfoService = new OrderInfoService(orderInfoRepositoryMock.Object);
         }
+
         [TestMethod]
         public async Task PostAsyncTest_ShouldReturnOrderInfoObj()
         {
@@ -33,7 +33,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
 
             // Act
-            var result = await orderInfoService.PostAsync(product, cancellationToken, time);
+            var result = await orderInfoService.PostAsync(product, time, cancellationToken);
 
             //Assert
             Assert.IsNotNull(result);
@@ -76,9 +76,11 @@ namespace Unit_Tests
         {
             // Arrange
             var cancellationToken = CancellationToken.None;
+            var product = new Product { }; 
+            var order = new OrderInfo {Product = product };
 
             // Act
-            var result = await orderInfoService.CompareOrdersAsync(null, cancellationToken);
+            var result = await orderInfoService.CompareOrdersAsync(order, cancellationToken);
 
             // Assert
             Assert.IsFalse(result);
@@ -137,7 +139,7 @@ namespace Unit_Tests
             var result = await orderInfoService.EstimateDeliveryAsync(cancellationToken);
 
             // Assert
-            Assert.AreEqual(120, result); 
+            Assert.AreEqual(120, result);
         }
 
         [TestMethod]
@@ -217,7 +219,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             orderInfoRepositoryMock
                 .Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((OrderInfo?)null); 
+                .ReturnsAsync((OrderInfo?)null);
 
             // Act
             var result = await orderInfoService.GetOrderByIdAsync(99, cancellationToken);

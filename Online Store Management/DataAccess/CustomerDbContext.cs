@@ -2,13 +2,9 @@
 
 namespace Online_Store_Management.DataAccess
 {
-    public class CustomerDBContext : DbContext
+    public class CustomerDBContext(DbContextOptions<CustomerDBContext> options) : DbContext(options)
     {
-        public CustomerDBContext(DbContextOptions<CustomerDBContext> options) : base(options)
-        {
-        }
-
-        public DbSet<CustomerDbModel> Customers { get; set; }
+        public DbSet<CustomerDbModel>? Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

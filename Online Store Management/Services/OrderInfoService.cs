@@ -29,7 +29,7 @@ namespace Online_Store_Management.Services
             return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, time);
         }
 
-        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time)
+        public async Task<OrderInfo> PostAsync(Product product, DateTime time, CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
             var gifts = Gifts[Random.Shared.Next(Gifts.Length)];
@@ -48,7 +48,7 @@ namespace Online_Store_Management.Services
             return order;
         }
 
-        public async Task<bool> CompareOrdersAsync(OrderInfo? order, CancellationToken cancellationToken)
+        public async Task<bool> CompareOrdersAsync(OrderInfo order, CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
             bool compare = false;

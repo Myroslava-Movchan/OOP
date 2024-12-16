@@ -4,15 +4,10 @@ using Online_Store_Management.Models;
 
 namespace Online_Store_Management.DataAccess
 {
-    public class OrderInfoRepository : IRepository<OrderInfo>
+    public class OrderInfoRepository(OrderInfoDbContext context) : IRepository<OrderInfo>
     {
-        private static readonly List<OrderInfo> _order = new();
-        private readonly OrderInfoDbContext _context;
+        private readonly OrderInfoDbContext _context = context;
 
-        public OrderInfoRepository(OrderInfoDbContext context)
-        { 
-            _context = context;
-        }
         public async Task AddAsync(OrderInfo entity, CancellationToken cancellationToken)
         {
             await _context.Orders.AddAsync(entity, cancellationToken);
@@ -30,17 +25,13 @@ namespace Online_Store_Management.DataAccess
         }
         public async Task UpdateAsync(OrderInfo entity, CancellationToken cancellationToken)
         {
-            var existingEntity = await _context.Orders.FindAsync(entity.OrderNumber, cancellationToken);
-            if (existingEntity == null)
-            {
-                throw new InvalidOperationException($"Customer with id {entity.OrderNumber} does not exist");
-            }
+            var existingEntity = await _context.Orders.FindAsync([entity.OrderNumber, cancellationToken], cancellationToken: cancellationToken) ?? throw new InvalidOperationException($"Customer with id {entity.OrderNumber} does not exist");
             existingEntity.Status = entity.Status;
             await _context.SaveChangesAsync(cancellationToken);
         }
         public async Task DeleteAsync(int orderNumber, CancellationToken cancellationToken)
         {
-            var entity = await _context.Orders.FindAsync(orderNumber, cancellationToken);
+            var entity = await _context.Orders.FindAsync([orderNumber, cancellationToken], cancellationToken: cancellationToken);
             if (entity != null)
             {
                 _context.Orders.Remove(entity);

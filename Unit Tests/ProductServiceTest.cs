@@ -8,10 +8,9 @@ namespace Unit_Tests
     [TestClass]
     public sealed class ProductServiceTest
     {
-        private Mock<IRepository<Product>> productRepositoryMock;
-        private ProductService productService;
-        [TestInitialize]
-        public void TestInitialize()
+        private readonly Mock<IRepository<Product>> productRepositoryMock;
+        private readonly ProductService productService;
+        public ProductServiceTest()
         {
             productRepositoryMock = new Mock<IRepository<Product>>();
             productService = new ProductService(productRepositoryMock.Object);
