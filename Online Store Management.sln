@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Online Store Management", "Online Store Management\Online Store Management.csproj", "{F80CFADE-A438-4E22-A1FD-1C85899E8C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit Tests", "Unit Tests\Unit Tests.csproj", "{657A1BC8-D5D7-4B43-B87D-BA3003E7E227}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Online_Store_Managements.Unit Tests", "Unit Tests\Online_Store_Managements.Unit Tests.csproj", "{657A1BC8-D5D7-4B43-B87D-BA3003E7E227}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

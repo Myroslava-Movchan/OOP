@@ -8,8 +8,8 @@ namespace Unit_Tests
     [TestClass]
     public sealed class ProductServiceTest
     {
-        private Mock<IRepository<Product>>? productRepositoryMock;
-        private ProductService? productService;
+        private Mock<IRepository<Product>> productRepositoryMock;
+        private ProductService productService;
         [TestInitialize]
         public void TestInitialize()
         {
@@ -136,8 +136,7 @@ namespace Unit_Tests
             //Arrange
             var products = new List<Product>
             {
-                new Product
-                {
+                new() {
                     ProductId = 1,
                     ProductName = "abcd",
                     ProductPrice = 20,
@@ -145,8 +144,7 @@ namespace Unit_Tests
                     Category = "b",
                     Rating = 3
                 },
-                new Product
-                {
+                new() {
                     ProductId = 6,
                     ProductName = "efgh",
                     ProductPrice = 75,
@@ -171,8 +169,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             var products = new List<Product>
             {
-                new Product
-                {
+                new() {
                     ProductId = 1,
                     ProductName = "abcd",
                     ProductPrice = 20,
@@ -180,8 +177,7 @@ namespace Unit_Tests
                     Category = "pants",
                     Rating = 3
                 },
-                new Product
-                {
+                new() {
                     ProductId = 6,
                     ProductName = "efgh",
                     ProductPrice = 75,
@@ -210,8 +206,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             var products = new List<Product>
             {
-                new Product
-                {
+                new() {
                     ProductId = 1,
                     ProductName = "abcd",
                     ProductPrice = 20,
@@ -219,8 +214,7 @@ namespace Unit_Tests
                     Category = "pants",
                     Rating = 3
                 },
-                new Product
-                {
+                new() {
                     ProductId = 6,
                     ProductName = "efgh",
                     ProductPrice = 75,
@@ -248,8 +242,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             var products = new List<Product>
             {
-                new Product
-                {
+                new() {
                     ProductId = 1,
                     ProductName = "abcd",
                     ProductPrice = 20,
@@ -257,8 +250,7 @@ namespace Unit_Tests
                     Category = "pants",
                     Rating = 3
                 },
-                new Product
-                {
+                new() {
                     ProductId = 6,
                     ProductName = "efgh",
                     ProductPrice = 75,
@@ -288,8 +280,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             var products = new List<Product>
             {
-                new Product
-                {
+                new() {
                     ProductId = 1,
                     ProductName = "abcd",
                     ProductPrice = 20,
@@ -297,8 +288,7 @@ namespace Unit_Tests
                     Category = "pants",
                     Rating = 5
                 },
-                new Product
-                {
+                new() {
                     ProductId = 6,
                     ProductName = "efgh",
                     ProductPrice = 75,

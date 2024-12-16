@@ -8,8 +8,8 @@ namespace Unit_Tests
     [TestClass]
     public sealed class OrderInfoServiceTest
     {
-        private Mock<IRepository<OrderInfo>>? orderInfoRepositoryMock;
-        private OrderInfoService? orderInfoService;
+        private Mock<IRepository<OrderInfo>> orderInfoRepositoryMock;
+        private OrderInfoService orderInfoService;
         [TestInitialize]
         public void TestInitialize()
         {
@@ -20,7 +20,6 @@ namespace Unit_Tests
         public async Task PostAsyncTest_ShouldReturnOrderInfoObj()
         {
             //Arrange
-            var gift = "sticker";
             var time = DateTime.Now;
             var product = new Product
             {
@@ -218,7 +217,7 @@ namespace Unit_Tests
             var cancellationToken = CancellationToken.None;
             orderInfoRepositoryMock
                 .Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((OrderInfo)null); 
+                .ReturnsAsync((OrderInfo?)null); 
 
             // Act
             var result = await orderInfoService.GetOrderByIdAsync(99, cancellationToken);
@@ -323,16 +322,14 @@ namespace Unit_Tests
 
             var expectedOrders = new List<OrderInfo>
                 {
-                    new OrderInfo
-                    {
+                    new() {
                         OrderNumber = 10,
                         Gift = "sticker",
                         ProductId = 3,
                         Product = product,
                         Status = "shipped"
                     },
-                    new OrderInfo
-                    {
+                    new() {
                         OrderNumber = 11,
                         Gift = "card",
                         ProductId = 4,

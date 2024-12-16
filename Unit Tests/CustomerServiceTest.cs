@@ -10,8 +10,8 @@ namespace Unit_Tests
     [TestClass]
     public sealed class CustomerServiceTest
     {
-        private Mock<IRepository<CustomerDbModel>>? customerRepositoryMock;
-        private CustomerService? service;
+        private Mock<IRepository<CustomerDbModel>> customerRepositoryMock;
+        private CustomerService service;
 
         [TestInitialize]
         public void TestInitialize()
