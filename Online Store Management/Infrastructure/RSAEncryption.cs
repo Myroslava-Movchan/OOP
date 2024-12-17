@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Online_Store_Management.Infrastructure
@@ -13,27 +14,35 @@ namespace Online_Store_Management.Infrastructure
                 PrivateKey: Convert.ToBase64String(rsa.ExportPkcs8PrivateKey())
             );
         }
-        public static RSA ImportPublicKey(string pemKey)
+        public static RSA ImportPublicKey(string base64OrPemKey)
         {
-            var base64Key = string.Join("\n", pemKey
-                .Split('\n')
-                .Where(line => !line.StartsWith("-----")));
+            var keyContent = base64OrPemKey
+                .Replace("-----BEGIN PUBLIC KEY-----", string.Empty)
+                .Replace("-----END PUBLIC KEY-----", string.Empty)
+                .Replace("\n", string.Empty)
+                .Replace("\r", string.Empty)
+                .Trim();
 
-            var keyBytes = Convert.FromBase64String(base64Key);
+            var keyBytes = Convert.FromBase64String(keyContent);
 
             var rsa = RSA.Create();
             rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
+            return rsa;
+        }
+        public static RSA ImportPrivateKey(string base64PrivateKey)
+        {
+            var keyBytes = Convert.FromBase64String(base64PrivateKey);
 
+            var rsa = RSA.Create();
+            rsa.ImportPkcs8PrivateKey(keyBytes, out _);
             return rsa;
         }
 
         public static string Encrypt(string plainText, string publicKey)
         {
             using var rsa = ImportPublicKey(publicKey);
-
-            var plainBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            var plainBytes = Encoding.UTF8.GetBytes(plainText);
             var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
-
             return Convert.ToBase64String(encryptedBytes);
         }
 
