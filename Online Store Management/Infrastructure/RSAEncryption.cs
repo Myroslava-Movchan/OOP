@@ -16,19 +16,13 @@ namespace Online_Store_Management.Infrastructure
         }
         public static RSA ImportPublicKey(string base64OrPemKey)
         {
-            var keyContent = base64OrPemKey
-                .Replace("-----BEGIN PUBLIC KEY-----", string.Empty)
-                .Replace("-----END PUBLIC KEY-----", string.Empty)
-                .Replace("\n", string.Empty)
-                .Replace("\r", string.Empty)
-                .Trim();
-
-            var keyBytes = Convert.FromBase64String(keyContent);
+            var keyBytes = Convert.FromBase64String(base64OrPemKey);
 
             var rsa = RSA.Create();
             rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
             return rsa;
         }
+
         public static RSA ImportPrivateKey(string base64PrivateKey)
         {
             var keyBytes = Convert.FromBase64String(base64PrivateKey);
@@ -45,8 +39,6 @@ namespace Online_Store_Management.Infrastructure
             var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
             return Convert.ToBase64String(encryptedBytes);
         }
-
-
 
         public static string Decrypt(string encryptedText, string privateKey)
         {
