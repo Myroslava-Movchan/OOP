@@ -391,3 +391,23 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Data bases
+*.db
+*.sqlite
+*.sqlite3
+*.db3
+*.mdb
+*.accdb
+*.sql
+*.tar.gz 
+
+# Coverage reports
+coverage/
+*.lcov
+*.coverage
+.coverage.*
+.nyc_output/
+htmlcov/
+.coverage
+coverage-final.json
