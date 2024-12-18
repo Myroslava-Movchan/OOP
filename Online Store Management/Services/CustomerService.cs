@@ -1,28 +1,23 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.DataAccess;
+using Microsoft.EntityFrameworkCore;
 namespace Online_Store_Management.Services
 {
-    public class CustomerService : ICustomer
+    public class CustomerService(IRepository<CustomerDbModel> customerRepository) : ICustomer
     {
         public delegate void CustomerUpdateHandler(CustomerDbModel customerUpdate);
         public event CustomerUpdateHandler? CustomerUpdate;
-        private readonly IRepository<CustomerDbModel> customerRepository;
-        private static readonly string[] LastNamesNew = new[]
-        {
-            "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
-        };
-        private static readonly int[] PostIndexes = new[]
-        {
-            03115, 22567, 89088, 12345, 54321, 65678
-        };
-
-        public CustomerService(IRepository<CustomerDbModel> customerRepository)
-        {
-            this.customerRepository = customerRepository
+        private readonly IRepository<CustomerDbModel> customerRepository = customerRepository
             ?? throw new ArgumentNullException(nameof(customerRepository));
-        }
-
+        private static readonly string[] LastNamesNew = 
+        [
+            "Snow", "Goth", "White", "Jeffry", "Smith", "Brown"
+        ];
+        private static readonly int[] PostIndexes = 
+        [
+            03115, 22567, 89088, 12345, 54321, 65678
+        ];
         public async Task<CustomerDbModel?> GetCustomerByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await customerRepository.GetByIdAsync(id, cancellationToken);
@@ -41,7 +36,8 @@ namespace Online_Store_Management.Services
         public async Task UpdateAsync(CustomerDbModel customer, CancellationToken cancellationToken)
         {
             await customerRepository.UpdateAsync(customer, cancellationToken);
-            CustomerUpdate.Invoke(customer);
+            var handler = CustomerUpdate;
+            handler?.Invoke(customer);
         }
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -57,7 +53,7 @@ namespace Online_Store_Management.Services
         {
             IEnumerable<string> lastNameNewQuery =
                 from name in LastNamesNew
-                where name.StartsWith("S")
+                where name.StartsWith('S')
                 select name;
 
             return lastNameNewQuery;

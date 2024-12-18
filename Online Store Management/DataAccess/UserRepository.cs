@@ -6,7 +6,7 @@ namespace Online_Store_Management.DataAccess
 {
     public class UserRepository : IUserRepository
     {
-        readonly Dictionary<string, string> users = new Dictionary<string, string>
+        readonly Dictionary<string, string> users = new()
         {
             { "john.doe@gmail.com", "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f" },
             { "jane.doe@gmail.com", "4ebd3d5f714ffedf6d9375713a76f44d4429461c1d89e214e005fac689f6e881" },

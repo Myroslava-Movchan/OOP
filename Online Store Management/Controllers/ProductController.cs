@@ -9,17 +9,10 @@ namespace Online_Store_Management.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController(IProduct productService, RsaKeys rsaKeys) : ControllerBase
     {
-        private readonly IProduct productService;
-        private readonly RsaKeys rsaKeyProvider;
-        private readonly IConfiguration configuration;
-        public ProductController(IProduct productService, RsaKeys rsaKeys, IConfiguration configuration)
-        {
-            this.productService = productService;
-            this.rsaKeyProvider = rsaKeys;
-            this.configuration = configuration;
-        }
+        private readonly IProduct productService = productService;
+        private readonly RsaKeys rsaKeyProvider = rsaKeys;
 
         [HttpGet("Create product")]
         public async Task<Product> GetProductAsync(CancellationToken cancellationToken)

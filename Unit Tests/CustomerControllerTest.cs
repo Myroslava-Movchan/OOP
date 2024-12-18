@@ -14,11 +14,10 @@ namespace Unit_Tests
     [TestClass]
     public sealed class CustomerControllerTest
     {
-        private  Mock<ICustomer> _customerServiceMock;
-        private  Mock<INotificationService> _notificationServiceMock;
-        private  CustomerController _controller;
-        [TestInitialize]
-        public void TestInitialize()
+        private  readonly Mock<ICustomer> _customerServiceMock;
+        private  readonly Mock<INotificationService> _notificationServiceMock;
+        private  readonly CustomerController _controller;
+        public CustomerControllerTest()
         {
             _customerServiceMock = new Mock<ICustomer>();
             _notificationServiceMock = new Mock<INotificationService>();

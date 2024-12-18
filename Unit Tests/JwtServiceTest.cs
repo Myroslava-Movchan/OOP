@@ -2,23 +2,16 @@
 using Moq;
 using Online_Store_Management.Services.Auth;
 using Online_Store_Management.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Unit_Tests
 {
     [TestClass]
     public sealed class JwtServiceTest
     {
-        private Mock<IOptions<JwtOptions>> _jwtOptionsMock;
-        private JwtService _jwtService;
-        [TestInitialize]
-        public void TestInitialize()
+        private readonly Mock<IOptions<JwtOptions>> _jwtOptionsMock;
+        private readonly JwtService _jwtService;
+        public JwtServiceTest()
         {
             _jwtOptionsMock = new Mock<IOptions<JwtOptions>>();
             _jwtOptionsMock.SetupGet(o => o.Value).Returns(new JwtOptions
@@ -28,7 +21,6 @@ namespace Unit_Tests
                 Audience = "TestAudience",
                 ExpiresInMinutes = 30
             });
-
             _jwtService = new JwtService(_jwtOptionsMock.Object);
         }
 

@@ -1,15 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-public class RsaKeys
+namespace Online_Store_Management.Infrastructure
 {
-    private readonly IConfiguration _configuration;
-    public RsaKeys(IConfiguration configuration)
+    public class RsaKeys(IConfiguration configuration)
     {
-        _configuration = configuration;
-    }
+        private readonly IConfiguration _configuration = configuration;
 
-    public string GetPrivateKey()
-    {
-        return _configuration["Encryption:PrivateKey"];
+        public string GetPrivateKey()
+        {
+            return _configuration["Encryption:PrivateKey"] ?? "Unknown key";
+        }
     }
 }

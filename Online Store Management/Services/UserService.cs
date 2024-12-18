@@ -5,13 +5,9 @@ using System.Text;
 
 namespace Online_Store_Management.Services
 {
-    public class UserService : IUserService
+    public class UserService(IUserRepository userRepository) : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+        private readonly IUserRepository _userRepository = userRepository;
 
         public User? GetUserByEmail(string email)
         {
@@ -23,7 +19,7 @@ namespace Online_Store_Management.Services
             return hashPassword == HashPassword(plainPassword);
         }
 
-        private string HashPassword(string plainPassword)
+        private static string HashPassword(string plainPassword)
         {
             using var sha256 = SHA256.Create();
             var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(plainPassword));

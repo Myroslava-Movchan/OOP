@@ -5,17 +5,19 @@ namespace Unit_Tests
     [TestClass]
     public sealed class NewCustomerServiceTest
     {
-        private NewCustomerService service;
-
+        private readonly NewCustomerService service;
+        public NewCustomerServiceTest()
+        {
+            service = new NewCustomerService();
+        }
         [TestMethod]
         public async Task GetNewCustomerAsyncTest_ShouldReturnNewCustomer()
         {
             //Arrange
-            service = new NewCustomerService();
             var cancellationToken = CancellationToken.None;
 
             //Act
-            var result = service.GetNewCustomerAsync(cancellationToken);
+            var result = await service.GetNewCustomerAsync(cancellationToken);
 
             //Assert
             Assert.IsNotNull(result);
