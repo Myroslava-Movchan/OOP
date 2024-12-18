@@ -13,6 +13,7 @@ namespace Online_Store_Management.Infrastructure
                 PrivateKey: Convert.ToBase64String(rsa.ExportPkcs8PrivateKey())
             );
         }
+
         public static RSA ImportPublicKey(string pemKey)
         {
             var base64Key = string.Join("\n", pemKey
@@ -31,13 +32,11 @@ namespace Online_Store_Management.Infrastructure
         {
             using var rsa = ImportPublicKey(publicKey);
 
-            var plainBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            var plainBytes = Encoding.UTF8.GetBytes(plainText);
             var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
 
             return Convert.ToBase64String(encryptedBytes);
         }
-
-
 
         public static string Decrypt(string encryptedText, string privateKey)
         {

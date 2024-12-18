@@ -5,14 +5,9 @@ namespace Online_Store_Management.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class SerializerController : ControllerBase
+    public class SerializerController(SerializerService serializerService) : ControllerBase
     {
-        private readonly SerializerService _serializerService;
-
-        public SerializerController(SerializerService serializerService)
-        {
-            _serializerService = serializerService;
-        }
+        private readonly SerializerService _serializerService = serializerService;
 
         [HttpGet("serialize")]
         public IActionResult Serialize()

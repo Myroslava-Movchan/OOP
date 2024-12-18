@@ -4,15 +4,10 @@ using Online_Store_Management.Models;
 
 namespace Online_Store_Management.DataAccess
 {
-    public class ProductRepository : IRepository<Product>
+    public class ProductRepository(ProductDbContext context) : IRepository<Product>
     {
-        private static readonly List<Product> _product = new();
-        private readonly ProductDbContext _context;
+        private readonly ProductDbContext _context = context;
 
-        public ProductRepository(ProductDbContext context)
-        {
-            _context = context;
-        }
         public async Task AddAsync(Product entity, CancellationToken cancellationToken)
         {
             await _context.Products.AddAsync(entity, cancellationToken);
@@ -20,7 +15,7 @@ namespace Online_Store_Management.DataAccess
         }
         public async Task<Product?> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _context.Products.FindAsync(id, cancellationToken);
+            return await _context.Products.FindAsync([id, cancellationToken], cancellationToken: cancellationToken);
         }
         public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
         {
@@ -28,17 +23,13 @@ namespace Online_Store_Management.DataAccess
         }
         public async Task UpdateAsync(Product entity, CancellationToken cancellationToken)
         {
-            var existingEntity = await _context.Products.FindAsync(entity.ProductId, cancellationToken);
-            if (existingEntity == null)
-            {
-                throw new InvalidOperationException($"Customer with id {entity.ProductId} does not exist");
-            }
+            var existingEntity = await _context.Products.FindAsync([entity.ProductId, cancellationToken], cancellationToken: cancellationToken) ?? throw new InvalidOperationException($"Customer with id {entity.ProductId} does not exist");
             _context.Entry(existingEntity).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
         public async Task DeleteAsync(int orderNumber, CancellationToken cancellationToken)
         {
-            var entity = await _context.Products.FindAsync(orderNumber, cancellationToken);
+            var entity = await _context.Products.FindAsync([orderNumber, cancellationToken], cancellationToken: cancellationToken);
             if (entity != null)
             {
                 _context.Products.Remove(entity);

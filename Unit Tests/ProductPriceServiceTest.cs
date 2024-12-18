@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Online_Store_Management.Services;
 using Online_Store_Management.Models;
+using static Online_Store_Management.Models.ProductTypeEnum;
 
 namespace Unit_Tests
 {
@@ -42,7 +43,7 @@ namespace Unit_Tests
             var result = _service.CategorizeGiftsNumber(order, product);
 
             //Assert
-            Assert.AreEqual(result, ProductPriceType.Low);
+            Assert.AreEqual(ProductPriceType.Low, result);
         }
 
         [TestMethod]

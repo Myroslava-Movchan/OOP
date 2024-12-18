@@ -4,11 +4,12 @@ using System.Threading;
 using Online_Store_Management.Infrastructure;
 namespace Online_Store_Management.Services
 {
-    public class ProductService : IProduct
+    public class ProductService(IRepository<Product> productRepository) : IProduct
     {
-        private readonly IRepository<Product> productRepository;
-        private static readonly string[] Products = new[]
-        {
+        private readonly IRepository<Product> productRepository = productRepository
+            ?? throw new ArgumentNullException(nameof(productRepository));
+        private static readonly string[] Products =
+        [
             "T-Shirt", "Jeans",
             "Sweater", "Jacket",
             "Dress", "Skirt",
@@ -18,7 +19,7 @@ namespace Online_Store_Management.Services
             "Belt", "Scarf",
             "Hat", "Socks",
             "Boots", "Sneakers"
-        };
+        ];
         private static readonly Dictionary<string, string> Categories = new()
         {
             { "T-Shirt", "Shirts" },
@@ -40,11 +41,7 @@ namespace Online_Store_Management.Services
             { "Boots", "Shoes" },
             { "Sneakers", "Shoes" }
         };
-        public ProductService(IRepository<Product> productRepository)
-        {
-            this.productRepository = productRepository
-            ?? throw new ArgumentNullException(nameof(productRepository));
-        }
+
         public async Task<Product> GetProductAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
