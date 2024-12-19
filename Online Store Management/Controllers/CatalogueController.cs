@@ -6,14 +6,9 @@ namespace Catalogue.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(CatalogueClient catalogueClient) : ControllerBase
     {
-        private readonly CatalogueClient _catalogueClient;
-
-        public ProductController(CatalogueClient catalogueClient)
-        {
-            _catalogueClient = catalogueClient;
-        }
+        private readonly CatalogueClient _catalogueClient = catalogueClient;
 
         [HttpGet("images")]
         public async Task<IActionResult> GetProductImagesAsync(CancellationToken cancellationToken)

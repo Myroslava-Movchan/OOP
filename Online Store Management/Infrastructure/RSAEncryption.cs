@@ -14,6 +14,7 @@ namespace Online_Store_Management.Infrastructure
                 PrivateKey: Convert.ToBase64String(rsa.ExportPkcs8PrivateKey())
             );
         }
+
         public static RSA ImportPublicKey(string base64OrPemKey)
         {
             var keyBytes = Convert.FromBase64String(base64OrPemKey);
@@ -35,8 +36,10 @@ namespace Online_Store_Management.Infrastructure
         public static string Encrypt(string plainText, string publicKey)
         {
             using var rsa = ImportPublicKey(publicKey);
+
         var plainBytes = Encoding.UTF8.GetBytes(plainText);
         var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
+
             return Convert.ToBase64String(encryptedBytes);
         }
 
@@ -44,7 +47,7 @@ namespace Online_Store_Management.Infrastructure
         {
             using var rsa = RSA.Create();
             rsa.ImportPkcs8PrivateKey(Convert.FromBase64String(privateKey), out _);
-            var decryptedBytes = rsa.Decrypt(Convert.FromBase64String(encryptedText), RSAEncryptionPadding.Pkcs1);
+            var decryptedBytes = rsa.Decrypt(Convert.FromBase64String(encryptedText), RSAEncryptionPadding.OaepSHA256);
             return Encoding.UTF8.GetString(decryptedBytes);
         }
     }

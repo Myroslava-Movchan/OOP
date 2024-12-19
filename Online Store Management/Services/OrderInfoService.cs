@@ -4,11 +4,11 @@ using Online_Store_Management.Interfaces;
 using Online_Store_Management.Extensions;
 namespace Online_Store_Management.Services
 {
-    public class OrderInfoService : IOrderInfo
+    public class OrderInfoService(IRepository<OrderInfo> orderRepository) : IOrderInfo
     {
-        private readonly ArrayList orders = new ArrayList(100);
-        private HashSet<OrderInfo> orderTable = new HashSet<OrderInfo>();
-        private readonly IRepository<OrderInfo> orderRepository;
+        private readonly ArrayList orders = new(100);
+        private readonly HashSet<OrderInfo> orderTable = [];
+        private readonly IRepository<OrderInfo> orderRepository = orderRepository;
 
         public Func<OrderInfo, decimal>? CalculateTotal { get; set; }
         private static readonly string[] Gifts =
@@ -17,13 +17,19 @@ namespace Online_Store_Management.Services
             "Candy", "Bracelet",
             "Hairclip", "Socks"
         ];
-
-        public OrderInfoService(IRepository<OrderInfo> orderRepository)
+        public DateTime ConvertJapaneseToUtc(DateTime japaneseTime)
         {
-            this.orderRepository = orderRepository;
+            var japaneseTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            return TimeZoneInfo.ConvertTimeToUtc(japaneseTime, japaneseTimeZone);
         }
 
-        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
+        public DateTime GetTimeTokyo()
+        {
+            var time = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, time);
+        }
+
+        public async Task<OrderInfo> PostAsync(Product product, DateTime time, CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
             var gifts = Gifts[Random.Shared.Next(Gifts.Length)];
@@ -32,10 +38,10 @@ namespace Online_Store_Management.Services
                 OrderNumber = Random.Shared.Next(1, 250),
                 Gift = gifts,
                 Product = product,
-                Status = "Processing"
+                Status = "Processing",
+                OrderDate = ConvertJapaneseToUtc(time)
             };
 
-            var delivery = OrderInfoExtension.EstimateDeliveryAsync(product, cancellationToken);
             object objOrder = orderInfo;
             orders.Add(objOrder);
             OrderInfo order = (OrderInfo)objOrder;
@@ -60,7 +66,6 @@ namespace Online_Store_Management.Services
         public async Task<bool> AddToTableAsync(OrderInfo order, CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
-            var orderHashCode = order.GetHashCode();
             foreach (var existingOrder in orders)
             {
                 if (existingOrder.Equals(order))
@@ -80,6 +85,10 @@ namespace Online_Store_Management.Services
 
         public decimal GetTotal(OrderInfo order)
         {
+            if(CalculateTotal == null)
+            {
+                return 0;
+            }
             return CalculateTotal(order);
         }
 

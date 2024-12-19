@@ -10,11 +10,9 @@ namespace Unit_Tests
     [TestClass]
     public sealed class CustomerServiceTest
     {
-        private Mock<IRepository<CustomerDbModel>>? customerRepositoryMock;
-        private CustomerService? service;
-
-        [TestInitialize]
-        public void TestInitialize()
+        private readonly Mock<IRepository<CustomerDbModel>> customerRepositoryMock;
+        private readonly CustomerService service;
+        public CustomerServiceTest()
         {
             customerRepositoryMock = new Mock<IRepository<CustomerDbModel>>();
             service = new CustomerService(customerRepositoryMock.Object);
@@ -81,10 +79,10 @@ namespace Unit_Tests
                 .Returns(Task.CompletedTask);
 
             bool isCustomerUpdateEventCalled = false;
-            CustomerUpdateHandler customerUpdateAction = _ =>
+            void customerUpdateAction(CustomerDbModel _)
             {
                 isCustomerUpdateEventCalled = true;
-            };
+            }
 
             service.CustomerUpdate += customerUpdateAction;
             var cancellationToken = CancellationToken.None;
@@ -127,13 +125,13 @@ namespace Unit_Tests
             // Act
             try
             {
-                await service.DeleteAsync(id, cancellationToken); 
-                Assert.Fail("Expected exception not thrown."); 
+                await service.DeleteAsync(id, cancellationToken);
+                Assert.Fail("Expected exception not thrown.");
             }
             catch (ArgumentException ex)
             {
                 // Assert
-                Assert.AreEqual("Invalid ID provided.", ex.Message); 
+                Assert.AreEqual("Invalid ID provided.", ex.Message);
             }
         }
 

@@ -9,19 +9,20 @@ namespace Online_Store_Management.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class OrderInfoController : ControllerBase
+    public class OrderInfoController(IOrderInfo orderInfoService) : ControllerBase
     {
-        private readonly IOrderInfo orderInfoService;
+        private readonly IOrderInfo orderInfoService = orderInfoService;
 
-        public OrderInfoController(IOrderInfo orderInfoService)
+        [HttpPost("Get current time in Tokyo")]
+        public DateTime GetTime()
         {
-            this.orderInfoService = orderInfoService;
+            return orderInfoService.GetTimeTokyo();
         }
 
         [HttpPost("Get information for order placement")]
-        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken)
+        public async Task<OrderInfo> PostAsync(Product product, CancellationToken cancellationToken, DateTime time)
         {
-            var orderInfo = await orderInfoService.PostAsync(product, cancellationToken);
+            var orderInfo = await orderInfoService.PostAsync(product, time, cancellationToken);
             var addToTable = orderInfoService.AddToTableAsync(orderInfo, cancellationToken);
             return orderInfo;
         }
@@ -61,10 +62,14 @@ namespace Online_Store_Management.Controllers
                 return NotFound();
             }
 
+            var frenchTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+            var frenchTime = TimeZoneInfo.ConvertTime(order.OrderDate, TimeZoneInfo.Utc, frenchTimeZone);
+
             return Ok(new
             {
                 order.Status,
-                order.Product
+                order.Product,
+                DateTime = order.OrderDate = frenchTime
             });
         }
 

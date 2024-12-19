@@ -10,6 +10,7 @@ namespace Online_Store_Management.Models
         public int ProductId { get; set; }
         public required Product Product { get; set; }
         public string? Status { get; set; }
+        public DateTime OrderDate { get; set; }
 
         public void ProductInfo(Product product)
         {
