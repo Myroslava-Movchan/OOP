@@ -35,8 +35,8 @@ namespace Online_Store_Management.Infrastructure
         public static string Encrypt(string plainText, string publicKey)
         {
             using var rsa = ImportPublicKey(publicKey);
-            var plainBytes = Encoding.UTF8.GetBytes(plainText);
-            var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
+        var plainBytes = Encoding.UTF8.GetBytes(plainText);
+        var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
             return Convert.ToBase64String(encryptedBytes);
         }
 
