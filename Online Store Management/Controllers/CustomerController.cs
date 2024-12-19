@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Online_Store_Management.Interfaces;
 using Online_Store_Management.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Online_Store_Management.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
 
-    public class CustomerController : ControllerBase
+    public class CustomerController(ICustomer customerService, INotificationService notificationService) : ControllerBase
     {
-        private readonly ICustomer customerService;
-        private readonly INotificationService notificationService;
-        public CustomerController(ICustomer customerService, INotificationService notificationService)
-        {
-            this.customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
-            this.notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
-        }
+        private readonly ICustomer customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+        private readonly INotificationService notificationService = notificationService ?? throw new ArgumentNullException(nameof(notificationService));
 
         [HttpPost("Add new customer")]
         public async Task AddNewCustomerAsync(CustomerDbModel customer, CancellationToken cancellationToken)
