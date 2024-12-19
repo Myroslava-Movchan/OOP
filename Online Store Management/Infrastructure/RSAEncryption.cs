@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Online_Store_Management.Infrastructure
@@ -14,17 +15,21 @@ namespace Online_Store_Management.Infrastructure
             );
         }
 
-        public static RSA ImportPublicKey(string pemKey)
+        public static RSA ImportPublicKey(string base64OrPemKey)
         {
-            var base64Key = string.Join("\n", pemKey
-                .Split('\n')
-                .Where(line => !line.StartsWith("-----")));
-
-            var keyBytes = Convert.FromBase64String(base64Key);
+            var keyBytes = Convert.FromBase64String(base64OrPemKey);
 
             var rsa = RSA.Create();
             rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
+            return rsa;
+        }
 
+        public static RSA ImportPrivateKey(string base64PrivateKey)
+        {
+            var keyBytes = Convert.FromBase64String(base64PrivateKey);
+
+            var rsa = RSA.Create();
+            rsa.ImportPkcs8PrivateKey(keyBytes, out _);
             return rsa;
         }
 
@@ -32,8 +37,8 @@ namespace Online_Store_Management.Infrastructure
         {
             using var rsa = ImportPublicKey(publicKey);
 
-            var plainBytes = Encoding.UTF8.GetBytes(plainText);
-            var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
+        var plainBytes = Encoding.UTF8.GetBytes(plainText);
+        var encryptedBytes = rsa.Encrypt(plainBytes, RSAEncryptionPadding.OaepSHA256);
 
             return Convert.ToBase64String(encryptedBytes);
         }
