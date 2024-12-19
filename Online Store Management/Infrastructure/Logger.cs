@@ -2,13 +2,10 @@
 
 namespace Online_Store_Management.Infrastructure
 {
-    public class Logger
+    public class Logger(ILogger<Logger> logger)
     {
-        private readonly ILogger<Logger> _logger;
-        public Logger(ILogger<Logger> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<Logger> _logger = logger;
+
         public void Log(string message)
         {
             _logger.LogInformation("Log: {message}", message);
@@ -23,17 +20,17 @@ namespace Online_Store_Management.Infrastructure
             _logger.LogWarning("Warning: {Message}", message);
         }
 
-        public static Task LogToConsole(Customer customer, CancellationToken cancellationToken)
+        public static Task LogToConsole(OrderInfo order, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
                 return Task.CompletedTask;
             }
 
-            Action<DateTime, string> displayCustomer = delegate (DateTime dateTime, string lastName)
+            static void displayCustomer(DateTime dateTime, string lastName)
             {
-                Console.WriteLine($"{dateTime.ToString("d MMM yyyy")}: {lastName}");
-            };
+                Console.WriteLine($"{dateTime:d MMM yyyy}: {lastName}");
+            }
             Display(displayCustomer);
             return Task.CompletedTask;
         }

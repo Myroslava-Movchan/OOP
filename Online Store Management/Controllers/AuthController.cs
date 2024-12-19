@@ -7,15 +7,10 @@ namespace Online_Store_Management.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController(IUserService userService, IJwtService jwtService) : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IJwtService _jwtService;
-        public AuthController(IUserService userService, IJwtService jwtService)
-        {
-            _userService = userService;
-            _jwtService = jwtService;
-        }
+        private readonly IUserService _userService = userService;
+        private readonly IJwtService _jwtService = jwtService;
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] Requests.LoginRequest request)

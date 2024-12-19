@@ -1,13 +1,15 @@
 ﻿using Online_Store_Management.Models;
 using Online_Store_Management.Interfaces;
 using System.Threading;
+using Online_Store_Management.Infrastructure;
 namespace Online_Store_Management.Services
 {
-    public class ProductService : IProduct
+    public class ProductService(IRepository<Product> productRepository) : IProduct
     {
-        private readonly IRepository<Product> productRepository;
-        private static readonly string[] Products = new[]
-        {
+        private readonly IRepository<Product> productRepository = productRepository
+            ?? throw new ArgumentNullException(nameof(productRepository));
+        private static readonly string[] Products =
+        [
             "T-Shirt", "Jeans",
             "Sweater", "Jacket",
             "Dress", "Skirt",
@@ -17,7 +19,7 @@ namespace Online_Store_Management.Services
             "Belt", "Scarf",
             "Hat", "Socks",
             "Boots", "Sneakers"
-        };
+        ];
         private static readonly Dictionary<string, string> Categories = new()
         {
             { "T-Shirt", "Shirts" },
@@ -39,11 +41,7 @@ namespace Online_Store_Management.Services
             { "Boots", "Shoes" },
             { "Sneakers", "Shoes" }
         };
-        public ProductService(IRepository<Product> productRepository)
-        {
-            this.productRepository = productRepository
-            ?? throw new ArgumentNullException(nameof(productRepository));
-        }
+
         public async Task<Product> GetProductAsync(CancellationToken cancellationToken)
         {
             await Task.Delay(50, cancellationToken);
@@ -70,6 +68,14 @@ namespace Online_Store_Management.Services
 
         public async Task AddProductAsync(Product product, CancellationToken cancellationToken)
         {
+            var publicKey = @"
+                            MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHITrVsjso0VgEjImMl+NNhVn+WCTgvWeCQ1j3O73F0v3AW8hIJwetiGAzYy2rY3Cu+TQDT0BthG67tuPFmUok0nEuZ/xBmrG6XHwTOsleH5z5V3CRoWzLU7iYHI8Bik7faWxJ/aJtfj149G0dYi3zdRWON4ptt3NuKnJvPRB15JAgMBAAE=
+                            ";
+            var productInfo = $"{product.ProductId},{product.ProductName},{product.ProductPrice},{product.Category},{product.Availability},{product.Rating}";
+            var encryptedData = RsaEncryption.Encrypt(productInfo, publicKey);
+
+            await File.AppendAllTextAsync("EncryptedProducts.log", encryptedData + Environment.NewLine, cancellationToken);
+
             await productRepository.AddAsync(product, cancellationToken);
         }
         public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
